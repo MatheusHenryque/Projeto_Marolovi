@@ -15,31 +15,48 @@
   <body>
     <div class="container">
       <header>
-        <div class="logo">
-          <div class="logo-icon">
-            <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <g clip-path="url(#clip0_6_319)">
-                <path d="M8.57829 8.57829C5.52816 11.6284 3.451 15.5145 2.60947 19.7452C1.76794 23.9758 2.19984 28.361 3.85056 32.3462C5.50128 36.3314 8.29667 39.7376 11.8832 42.134C15.4698 44.5305 19.6865 45.8096 24 45.8096C28.3135 45.8096 32.5302 44.5305 36.1168 42.134C39.7033 39.7375 42.4987 36.3314 44.1494 32.3462C45.8002 28.361 46.2321 23.9758 45.3905 19.7452C44.549 15.5145 42.4718 11.6284 39.4217 8.57829L24 24L8.57829 8.57829Z" fill="currentColor"></path>
-              </g>
-              <defs>
-                <clipPath id="clip0_6_319"><rect width="48" height="48" fill="white"></rect></clipPath>
-              </defs>
-            </svg>
-          </div>
-          <h2>Marolovi Tech</h2>
-        </div>
-        <nav>
-          <div class="nav-links">
-            <a href="#">Produto</a>
-            <a href="#">Como funciona</a>
-            <a href="#">Preços</a>
-            <a href="#">Recursos</a>
-          </div>
-          <button class="btn-primary">
-            <span>Começar agora</span>
-          </button>
-        </nav>
-      </header>
+    <div class="logo">
+      <div class="logo-icon">
+        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <g clip-path="url(#clip0_6_319)">
+            <path d="M8.57829 8.57829C5.52816 11.6284 3.451 15.5145 2.60947 19.7452C1.76794 23.9758 2.19984 28.361 3.85056 32.3462C5.50128 36.3314 8.29667 39.7376 11.8832 42.134C15.4698 44.5305 19.6865 45.8096 24 45.8096C28.3135 45.8096 32.5302 44.5305 36.1168 42.134C39.7033 39.7375 42.4987 36.3314 44.1494 32.3462C45.8002 28.361 46.2321 23.9758 45.3905 19.7452C44.549 15.5145 42.4718 11.6284 39.4217 8.57829L24 24L8.57829 8.57829Z" fill="currentColor"></path>
+          </g>
+          <defs>
+            <clipPath id="clip0_6_319"><rect width="48" height="48" fill="white"></rect></clipPath>
+          </defs>
+        </svg>
+      </div>
+      <h2>Marolovi Tech</h2>
+    </div>
+
+    <nav>
+      <div class="nav-links">
+        <a href="#">Produto</a>
+        <a href="#">Como funciona</a>
+        <a href="#">Preços</a>
+        <a href="#">Recursos</a>
+      </div>
+      <button class="btn-primary">
+        <span>Começar agora</span>
+      </button>
+    </nav>
+
+    <div class="btn-menu-mobile" id="menuToggle">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </header>
+
+  <div class="menu-mobile" id="menuMobile">
+    <ul>
+      <li><a href="#">Produto</a></li>
+      <li><a href="#">Como funciona</a></li>
+      <li><a href="#">Preços</a></li>
+      <li><a href="#">Recursos</a></li>
+      <li><a href="#" class="btn-contato-mobile">Começar agora</a></li>
+    </ul>
+  </div>
 
       <main>
         <div class="hero">
@@ -116,95 +133,12 @@
 
    
 </section>
-
-
-
-<!-- Seção Casos de Uso -->
-<section class="use-cases-section">
-  <div class="use-cases-container">
-    <div class="section-header">
-      <span class="section-subtitle">Casos de Uso e Benefícios</span>
-      <h2 class="section-title">Revolucionando o Cuidado Ocular em Diversos Ambientes</h2>
-      <p class="section-description">
-        Nossa plataforma movida por IA foi projetada para se integrar perfeitamente em diversos ambientes de saúde, desde clínicas movimentadas até laboratórios remotos, melhorando as capacidades de diagnóstico e os resultados dos pacientes.
-      </p>
-    </div>
-    
-    <div class="use-cases-grid">
-      <div class="use-case-card">
-        <div class="card-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" viewBox="0 0 256 256">
-            <path d="M216,88H168V40a16,16,0,0,0-16-16H104A16,16,0,0,0,88,40V88H40a16,16,0,0,0-16,16v48a16,16,0,0,0,16,16H88v48a16,16,0,0,0,16,16h48a16,16,0,0,0,16-16V168h48a16,16,0,0,0,16-16V104A16,16,0,0,0,216,88Zm0,64H160a8,8,0,0,0-8,8v56H104V160a8,8,0,0,0-8-8H40V104H96a8,8,0,0,0,8-8V40h48V96a8,8,0,0,0,8,8h56Z"></path>
-          </svg>
-        </div>
-        <h3 class="card-title">Clínicas</h3>
-        <p class="card-description">
-          Otimize o fluxo de pacientes com triagens rápidas e precisas, reduzindo tempos de espera e melhorando a satisfação do paciente.
-        </p>
-        <ul class="card-benefits">
-          <li>Redução de 40% no tempo de espera</li>
-          <li>Triagem automática de casos prioritários</li>
-          <li>Integração com sistemas de agendamento</li>
-        </ul>
-      </div>
-      
-      <div class="use-case-card highlighted">
-        <div class="card-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" viewBox="0 0 256 256">
-            <path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"></path>
-          </svg>
-        </div>
-        <h3 class="card-title">Hospitais e Laboratórios</h3>
-        <p class="card-description">
-          Melhore a precisão diagnóstica com insights baseados em IA, apoiando clínicos na detecção precoce e planejamento de tratamentos.
-        </p>
-        <ul class="card-benefits">
-          <li>95% de precisão em diagnósticos</li>
-          <li>Relatórios automáticos detalhados</li>
-          <li>Integração com prontuários eletrônicos</li>
-        </ul>
-      </div>
-      
-      <div class="use-case-card">
-        <div class="card-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" viewBox="0 0 256 256">
-            <path d="M128,64a40,40,0,1,0,40,40A40,40,0,0,0,128,64Zm0,64a24,24,0,1,1,24-24A24,24,0,0,1,128,128Zm0-112a88.1,88.1,0,0,0-88,88c0,31.4,14.51,64.68,42,96.25a254.19,254.19,0,0,0,41.45,38.3,8,8,0,0,0,9.18,0A254.19,254.19,0,0,0,174,200.25c27.45-31.57,42-64.85,42-96.25A88.1,88.1,0,0,0,128,16Zm0,206c-16.53-13-72-60.75-72-118a72,72,0,0,1,144,0C200,161.23,144.53,209,128,222Z"></path>
-          </svg>
-        </div>
-        <h3 class="card-title">Acesso Remoto</h3>
-        <p class="card-description">
-          Leve cuidados oculares de qualidade para comunidades carentes com nossa solução portátil e fácil de usar.
-        </p>
-        <ul class="card-benefits">
-          <li>Equipamento portátil e acessível</li>
-          <li>Diagnóstico em tempo real</li>
-          <li>Sem necessidade de especialista local</li>
-        </ul>
-      </div>
-    </div>
     
     <div class="results-section">
       <div class="results-header">
         <span class="section-subtitle">Impacto Real</span>
         <h2 class="section-title">Resultados que Transformam</h2>
       </div>
-      
-      <div class="testimonials-container">
-        <div class="testimonial-card">
-          <div class="testimonial-content">
-            <div class="quote-icon">"</div>
-            <p class="testimonial-text">
-              A precisão da IA na detecção de sinais precoces de degeneração macular tem sido notável. Transformou nossa capacidade de fornecer intervenções oportunas e preservar a visão dos pacientes.
-            </p>
-            <div class="testimonial-author">
-              <div class="author-image" style="background-image: url('https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=200&h=200&q=80')"></div>
-              <div class="author-info">
-                <p class="author-name">Dra. Ana Silva</p>
-                <p class="author-title">Oftalmologista - Hospital São Lucas</p>
-              </div>
-            </div>
-          </div>
-        </div>
         
         <div class="testimonial-card">
           <div class="testimonial-content">
@@ -294,6 +228,13 @@
     duration: 800,
     once: true,
   });
+  const menuToggle = document.getElementById('menuToggle');
+  const menuMobile = document.getElementById('menuMobile');
+
+    menuToggle.addEventListener('click', () => {
+      menuToggle.classList.toggle('active');
+      menuMobile.classList.toggle('active');
+    });
 </script>
 </body>
 <script src="static\src\script.js"></script>

@@ -14,13 +14,18 @@ body {
 
 /* Header */
 header {
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 0.75rem 2.5rem;
+  border-bottom: 1px solid #e7eef3;
+  background: white;
+  white-space: nowrap;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.75rem 2.5rem;
-  border-bottom: 1px solid #e7eef3;
-  background: transparent;
-  white-space: nowrap;
+  z-index: 1000;
+  position: fixed;
 }
 
 .logo {
@@ -40,8 +45,10 @@ header {
   font-weight: 700;
   line-height: 1.25;
   letter-spacing: -0.015em;
+  margin: 0;
 }
 
+/* Navegação */
 nav {
   display: flex;
   flex: 1;
@@ -61,16 +68,19 @@ nav {
   font-weight: 500;
   line-height: 1.5;
   text-decoration: none;
+  transition: 0.3s;
 }
 
-/* Botões */
+.nav-links a:hover {
+  color: #1c5b858f;
+}
+
+/* Botão primário */
 .btn-primary {
   display: flex;
-  width: 15%;
   cursor: pointer;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
   border-radius: 0.5rem;
   height: 2.5rem;
   padding: 0 1rem;
@@ -78,57 +88,113 @@ nav {
   color: #f8fafc;
   font-size: 0.875rem;
   font-weight: 700;
-  line-height: 1.5;
   letter-spacing: 0.015em;
   border: none;
-  transition: 0.5s;
+  transition: 0.3s;
 }
 
-.btn-primary-2 {
-  display: flex;
-  width: 35%;
+.btn-primary:hover {
+  background-color: #1c5b858f;
+}
+
+/* Botão menu mobile */
+.btn-menu-mobile {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 30px;
+  height: 20px;
   cursor: pointer;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  border-radius: 0.5rem;
-  height: 3.5rem;
-  padding: 0 1rem;
+  z-index: 1001;
+}
+
+.btn-menu-mobile span {
+  display: block;
+  width: 100%;
+  height: 2px;
   background-color: #1c5b85;
-  color: #f8fafc;
-  font-size: 0.875rem;
-  font-weight: 700;
-  line-height: 1.5;
-  letter-spacing: 0.015em;
-  border: none;
-  transition: 0.5s;
+  transition: all 0.3s ease;
 }
 
-.btn-primary:hover{
-    background-color: #1c5b858f;
+.btn-menu-mobile.active span:nth-child(1) {
+  transform: translateY(9px) rotate(45deg);
 }
 
-.btn-primary.large {
-  display: flex;
-  width: 75%;
-  cursor: pointer;
-  align-items: center;
+.btn-menu-mobile.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.btn-menu-mobile.active span:nth-child(3) {
+  transform: translateY(-9px) rotate(-45deg);
+}
+
+/* Menu mobile */
+.menu-mobile {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: white;
+  padding-top: 80px;
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+  z-index: 999;
+}
+
+.menu-mobile.active {
+  transform: translateX(0);
+}
+
+.menu-mobile ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.menu-mobile ul li {
+  padding: 15px 30px;
+  border-bottom: 1px solid #eee;
+}
+
+.menu-mobile ul li a {
+  color: #1c5b85;
+  text-decoration: none;
+  font-size: 1.2rem;
+  display: block;
+}
+
+.btn-contato-mobile {
+  background-color: #1c5b85;
+  color: white !important;
+  padding: 10px 20px;
+  border-radius: 30px;
+  margin-top: 20px;
   text-align: center;
-  margin: 0 auto;
-  justify-content: center;
-  overflow: hidden;
-  border-radius: 0.5rem;
-  height: 3.5rem;
-  padding: 0 1rem;
-  background-color: #1c5b85;
-  color: #f8fafc;
-  font-size: 0.875rem;
-  font-weight: 700;
-  line-height: 1.5;
-  letter-spacing: 0.015em;
-  border: none;
-  transition: 0.5s;
 }
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .nav-links,
+  .btn-primary {
+    display: none;
+  }
+
+  .btn-menu-mobile {
+    display: flex;
+  }
+
+  .menu-mobile {
+    display: block;
+  }
+
+  header {
+    padding: 15px 5%;
+    background-color: white;
+  }
+}
+
 
 
 /* Hero section */
