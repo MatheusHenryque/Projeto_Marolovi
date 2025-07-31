@@ -1,126 +1,1240 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="static/css/dashboard.css">
-    <title>Document</title>
+    <title>MedVision AI - Dashboard</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+        :root {
+            --primary-color: #2980b9;
+            --primary-light: #3498db;
+            --secondary-color: #2c3e50;
+            --accent-color: #16a085;
+            --light-bg: #ecf0f1;
+            --dark-bg: #2c3e50;
+            --text-dark: #2c3e50;
+            --text-light: #ecf0f1;
+            --border-color: #bdc3c7;
+            --success-color: #27ae60;
+            --warning-color: #f39c12;
+            --danger-color: #e74c3c;
+            
+            --sidebar-width: 280px;
+            --sidebar-collapsed: 80px;
+            --header-height: 70px;
+            --transition-speed: 0.3s;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--light-bg);
+            color: var(--text-dark);
+            display: flex;
+            min-height: 100vh;
+            transition: all var(--transition-speed) ease;
+        }
+
+        /* Sidebar Retilínea */
+        .vertical-sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            height: 100vh;
+            width: var(--sidebar-width);
+            background-color: var(--secondary-color);
+            color: white;
+            transition: width var(--transition-speed) ease;
+            z-index: 1000;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .vertical-sidebar.collapsed {
+            width: var(--sidebar-collapsed);
+        }
+
+        .sidebar-header {
+            padding: 20px;
+            height: var(--header-height);
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .toggle-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: transform 0.2s;
+            padding: 5px;
+        }
+
+        .toggle-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            width: 100%;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--primary-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            color: white;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .user-info {
+            transition: opacity var(--transition-speed);
+            overflow: hidden;
+        }
+
+        .vertical-sidebar.collapsed .user-info {
+            opacity: 0;
+            width: 0;
+        }
+
+        .user-name {
+            font-weight: 600;
+            font-size: 0.9rem;
+            white-space: nowrap;
+        }
+
+        .user-role {
+            font-size: 0.7rem;
+            opacity: 0.8;
+            white-space: nowrap;
+        }
+
+        .sidebar-menu {
+            padding: 15px 0;
+            height: calc(100vh - var(--header-height));
+            overflow-y: auto;
+        }
+
+        .menu-section {
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 0 20px 10px;
+            opacity: 0.7;
+            transition: all var(--transition-speed);
+        }
+
+        .vertical-sidebar.collapsed .section-title {
+            opacity: 0;
+            height: 0;
+            padding: 0;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            margin: 2px 0;
+            color: white;
+            text-decoration: none;
+            transition: all 0.2s;
+            position: relative;
+            overflow: hidden;
+            border-left: 3px solid transparent;
+        }
+
+        .menu-item:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        .menu-item.active {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-left: 3px solid var(--primary-light);
+        }
+
+        .menu-item.active .item-icon {
+            color: var(--primary-light);
+        }
+
+        .item-icon {
+            font-size: 1.1rem;
+            margin-right: 15px;
+            min-width: 24px;
+            transition: margin var(--transition-speed);
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .vertical-sidebar.collapsed .item-icon {
+            margin-right: 0;
+        }
+
+        .item-text {
+            transition: opacity var(--transition-speed);
+            white-space: nowrap;
+            font-size: 0.85rem;
+        }
+
+        .vertical-sidebar.collapsed .item-text {
+            opacity: 0;
+            width: 0;
+            overflow: hidden;
+        }
+
+        .menu-item::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            left: 100%;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: var(--dark-bg);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s;
+            white-space: nowrap;
+            margin-left: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            z-index: 1001;
+        }
+
+        .vertical-sidebar.collapsed .menu-item:hover::after {
+            opacity: 1;
+        }
+
+        /* Conteúdo Principal */
+        .main-content {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            padding: 20px;
+            transition: margin-left var(--transition-speed) ease;
+            background-color: var(--light-bg);
+        }
+
+        .vertical-sidebar.collapsed ~ .main-content {
+            margin-left: var(--sidebar-collapsed);
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            background-color: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .page-title h1 {
+            font-size: 1.5rem;
+            color: var(--secondary-color);
+            margin-bottom: 5px;
+        }
+
+        .page-title p {
+            color: #7f8c8d;
+            font-size: 0.85rem;
+        }
+
+        .user-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .action-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: white;
+            color: var(--secondary-color);
+            border: 1px solid var(--border-color);
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+        }
+
+        .action-btn:hover {
+            background-color: #f5f5f5;
+            transform: translateY(-2px);
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            width: 18px;
+            height: 18px;
+            background-color: var(--danger-color);
+            border-radius: 50%;
+            color: white;
+            font-size: 0.6rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid white;
+        }
+
+        /* Layout do Dashboard em Linha */
+        .dashboard-row {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .dashboard-col {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* Seção de Vídeo Demonstrativo */
+        .demo-section {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            flex: 0 0 40%;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .section-header h2 {
+            font-size: 1.2rem;
+            color: var(--secondary-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-header h2 i {
+            color: var(--primary-color);
+        }
+
+        .video-container {
+            position: relative;
+            padding-bottom: 45%; /* Proporção mais compacta */
+            height: 0;
+            overflow: hidden;
+            background-color: #000;
+            border-radius: 6px;
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .video-placeholder {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            background-color: var(--secondary-color);
+        }
+
+        .video-placeholder i {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            color: var(--primary-light);
+        }
+
+        /* Cards de Funcionalidades */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .feature-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border-color: var(--primary-light);
+        }
+
+        .card-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            color: white;
+            background-color: var(--primary-color);
+        }
+
+        .feature-card h3 {
+            font-size: 1rem;
+            margin-bottom: 10px;
+            color: var(--secondary-color);
+        }
+
+        .feature-card p {
+            font-size: 0.8rem;
+            color: #7f8c8d;
+            margin-bottom: 15px;
+            flex-grow: 1;
+        }
+
+        .card-link {
+            display: flex;
+            align-items: center;
+            color: var(--primary-color);
+            font-weight: 500;
+            font-size: 0.8rem;
+            text-decoration: none;
+            margin-top: auto;
+        }
+
+        .card-link i {
+            margin-left: 5px;
+            transition: transform 0.2s;
+        }
+
+        .feature-card:hover .card-link i {
+            transform: translateX(3px);
+        }
+
+        /* Seção de Upload */
+        .upload-section {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .upload-area {
+            border: 2px dashed var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s;
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .upload-area:hover {
+            border-color: var(--primary-color);
+            background-color: rgba(52, 152, 219, 0.03);
+        }
+
+        .upload-icon {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .upload-text h3 {
+            font-size: 1rem;
+            margin-bottom: 5px;
+        }
+
+        .upload-text p {
+            font-size: 0.8rem;
+            color: #7f8c8d;
+        }
+
+        .upload-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+        }
+
+        .upload-btn:hover {
+            background-color: var(--primary-light);
+            transform: translateY(-2px);
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        /* Seção de Resultados */
+        .results-section {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            flex-grow: 1;
+        }
+
+        .result-box {
+            background-color: var(--light-bg);
+            border-radius: 8px;
+            padding: 15px;
+            min-height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: #7f8c8d;
+            border: 1px dashed var(--border-color);
+            height: 100%;
+        }
+
+        .result-content {
+            max-width: 100%;
+            overflow-x: auto;
+        }
+
+        .result-content h3 {
+            color: var(--secondary-color);
+            margin-bottom: 10px;
+            font-size: 1rem;
+        }
+
+        .result-content p {
+            margin-bottom: 15px;
+            font-size: 0.85rem;
+        }
+
+        .confidence-meter {
+            height: 6px;
+            background-color: #e0e0e0;
+            border-radius: 3px;
+            margin: 15px 0;
+            overflow: hidden;
+        }
+
+        .confidence-level {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-color), var(--primary-light));
+            width: 85%;
+        }
+
+        .result-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .primary-btn {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .primary-btn:hover {
+            background-color: var(--primary-light);
+        }
+
+        .secondary-btn {
+            background-color: white;
+            color: var(--secondary-color);
+            border: 1px solid var(--border-color);
+        }
+
+        .secondary-btn:hover {
+            background-color: #f8f9fa;
+        }
+
+        /* Chatbot */
+        #chat-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(41, 128, 185, 0.3);
+            z-index: 999;
+            transition: all 0.3s;
+            border: none;
+        }
+
+        #chat-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(41, 128, 185, 0.4);
+            background-color: var(--primary-light);
+        }
+
+        #chat-container {
+            display: none;
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            width: 300px;
+            max-width: calc(100% - 40px);
+            height: 400px;
+            max-height: 70vh;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15);
+            z-index: 999;
+            flex-direction: column;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+
+        #chat-header {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 12px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chat-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+        }
+
+        .chat-title i {
+            color: var(--primary-light);
+            font-size: 1rem;
+        }
+
+        .chat-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .chat-action-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 0.9rem;
+            cursor: pointer;
+            opacity: 0.8;
+            transition: opacity 0.2s;
+        }
+
+        .chat-action-btn:hover {
+            opacity: 1;
+        }
+
+        #chat-messages {
+            flex: 1;
+            padding: 12px;
+            overflow-y: auto;
+            background-color: var(--light-bg);
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .message {
+            max-width: 85%;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            line-height: 1.4;
+            position: relative;
+        }
+
+        .message.bot {
+            background-color: white;
+            align-self: flex-start;
+            border: 1px solid var(--border-color);
+            border-radius: 0 6px 6px 6px;
+        }
+
+        .message.user {
+            background-color: var(--primary-color);
+            color: white;
+            margin-left: auto;
+            border-radius: 6px 0 6px 6px;
+        }
+
+        .message-time {
+            font-size: 0.65rem;
+            opacity: 0.7;
+            margin-top: 4px;
+            text-align: right;
+        }
+
+        .message.user .message-time {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        #chat-input-container {
+            display: flex;
+            padding: 10px;
+            background-color: white;
+            border-top: 1px solid var(--border-color);
+        }
+
+        #chat-input {
+            flex: 1;
+            padding: 8px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            outline: none;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.8rem;
+        }
+
+        #chat-input:focus {
+            border-color: var(--primary-color);
+        }
+
+        #send-button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            margin-left: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            font-size: 0.9rem;
+        }
+
+        #send-button:hover {
+            background-color: var(--primary-light);
+        }
+
+        /* Responsividade */
+        @media (max-width: 1200px) {
+            .vertical-sidebar {
+                width: var(--sidebar-collapsed);
+            }
+            
+            .vertical-sidebar:not(.collapsed) {
+                width: var(--sidebar-width);
+            }
+            
+            .main-content {
+                margin-left: var(--sidebar-collapsed);
+            }
+            
+            .vertical-sidebar:not(.collapsed) ~ .main-content {
+                margin-left: var(--sidebar-width);
+            }
+        }
+
+        @media (max-width: 992px) {
+            .dashboard-row {
+                flex-direction: column;
+            }
+            
+            .demo-section {
+                flex: 1;
+            }
+            
+            .features-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 15px;
+            }
+            
+            .dashboard-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .upload-area {
+                padding: 15px;
+            }
+            
+            #chat-container {
+                width: 100%;
+                height: 60vh;
+                bottom: 0;
+                right: 0;
+                border-radius: 8px 8px 0 0;
+                max-width: 100%;
+            }
+            
+            #chat-button {
+                bottom: 15px;
+                right: 15px;
+                width: 45px;
+                height: 45px;
+                font-size: 1.2rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .result-actions {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .action-btn {
+                justify-content: center;
+            }
+        }
+    </style>
 </head>
 <body>
-    <aside class="vertical-sidebar"> <input type="checkbox" role="switch" id="checkbox-input" class="checkbox-input" checked />
-    <nav>
-        <header>
-            <div class="sidebar__toggle-container"> <label tabindex="0" for="checkbox-input" id="label-for-checkbox-input" class="nav__toggle"> <span class="toggle--icons" aria-hidden="true"> <svg width="24" height="24" viewBox="0 0 24 24" class="toggle-svg-icon toggle--open">
-                            <path d="M3 5a1 1 0 1 0 0 2h18a1 1 0 1 0 0-2zM2 12a1 1 0 0 1 1-1h18a1 1 0 1 1 0 2H3a1 1 0 0 1-1-1M2 18a1 1 0 0 1 1-1h18a1 1 0 1 1 0 2H3a1 1 0 0 1-1-1"> </path>
-                        </svg> <svg width="24" height="24" viewBox="0 0 24 24" class="toggle-svg-icon toggle--close">
-                            <path d="M18.707 6.707a1 1 0 0 0-1.414-1.414L12 10.586 6.707 5.293a1 1 0 0 0-1.414 1.414L10.586 12l-5.293 5.293a1 1 0 1 0 1.414 1.414L12 13.414l5.293 5.293a1 1 0 0 0 1.414-1.414L13.414 12z"> </path>
-                        </svg> </span> </label> </div>
-            <figure>
-                <figcaption>
-                    <p class="user-id">Marolovi</p>
-                    <p class="user-role">Tech</p>
-                </figcaption>
-            </figure>
+    <!-- Sidebar Retilínea -->
+    <aside class="vertical-sidebar">
+        <div class="sidebar-header">
+            <button class="toggle-btn" id="sidebar-toggle">
+                <i class="bi bi-list"></i>
+            </button>
+            <div class="user-profile">
+                <div class="user-avatar">M</div>
+                <div class="user-info">
+                    <div class="user-name">Marolovi</div>
+                    <div class="user-role">Médico</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="sidebar-menu">
+            <div class="menu-section">
+                <div class="section-title">Menu Principal</div>
+                <a href="#" class="menu-item active" data-tooltip="Dashboard">
+                    <i class="bi bi-speedometer2 item-icon"></i>
+                    <span class="item-text">Dashboard</span>
+                </a>
+                <a href="#" class="menu-item" data-tooltip="Pacientes">
+                    <i class="bi bi-people item-icon"></i>
+                    <span class="item-text">Pacientes</span>
+                </a>
+                <a href="#" class="menu-item" data-tooltip="Exames">
+                    <i class="bi bi-file-medical item-icon"></i>
+                    <span class="item-text">Exames</span>
+                </a>
+                <a href="#" class="menu-item" data-tooltip="Análises">
+                    <i class="bi bi-graph-up item-icon"></i>
+                    <span class="item-text">Análises</span>
+                </a>
+            </div>
+            
+            <div class="menu-section">
+                <div class="section-title">Ferramentas</div>
+                <a href="#" class="menu-item" data-tooltip="IA Diagnóstica">
+                    <i class="bi bi-robot item-icon"></i>
+                    <span class="item-text">IA Diagnóstica</span>
+                </a>
+                <a href="#" class="menu-item" data-tooltip="Histórico">
+                    <i class="bi bi-clock-history item-icon"></i>
+                    <span class="item-text">Histórico</span>
+                </a>
+                <a href="#" class="menu-item" data-tooltip="Relatórios">
+                    <i class="bi bi-file-text item-icon"></i>
+                    <span class="item-text">Relatórios</span>
+                </a>
+            </div>
+            
+            <div class="menu-section">
+                <div class="section-title">Configurações</div>
+                <a href="#" class="menu-item" data-tooltip="Perfil">
+                    <i class="bi bi-person item-icon"></i>
+                    <span class="item-text">Perfil</span>
+                </a>
+                <a href="#" class="menu-item" data-tooltip="Configurações">
+                    <i class="bi bi-gear item-icon"></i>
+                    <span class="item-text">Configurações</span>
+                </a>
+                <a href="#" class="menu-item" data-tooltip="Sair">
+                    <i class="bi bi-box-arrow-right item-icon"></i>
+                    <span class="item-text">Sair</span>
+                </a>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Conteúdo Principal -->
+    <main class="main-content">
+        <header class="dashboard-header">
+            <div class="page-title">
+                <h1>Bem-vindo, Dr(a). Marolovi</h1>
+                <p>Dashboard de análises médicas assistidas por IA</p>
+            </div>
+            
+            <div class="user-actions">
+                <button class="action-btn">
+                    <i class="bi bi-bell"></i>
+                    <span class="notification-badge">3</span>
+                </button>
+                <button class="action-btn">
+                    <i class="bi bi-person"></i>
+                </button>
+            </div>
         </header>
-        <section class="sidebar__wrapper">
-            <ul class="sidebar__list list--primary">
-                <li class="sidebar__item item--heading">
-                    <h2 class="sidebar__item--heading">general</h2>
-                </li>
-                <li class="sidebar__item"> <a class="sidebar__link" href="/" data-tooltip="Inbox"> <span class="icon"> <svg width="16" height="16" fill="currentColor" class="bi bi-inbox" viewBox="0 0 16 16">
-                                <path d="M4.98 4a.5.5 0 0 0-.39.188L1.54 8H6a.5.5 0 0 1 .5.5 1.5 1.5 0 1 0 3 0A.5.5 0 0 1 10 8h4.46l-3.05-3.812A.5.5 0 0 0 11.02 4zm9.954 5H10.45a2.5 2.5 0 0 1-4.9 0H1.066l.32 2.562a.5.5 0 0 0 .497.438h12.234a.5.5 0 0 0 .496-.438zM3.809 3.563A1.5 1.5 0 0 1 4.981 3h6.038a1.5 1.5 0 0 1 1.172.563l3.7 4.625a.5.5 0 0 1 .105.374l-.39 3.124A1.5 1.5 0 0 1 14.117 13H1.883a1.5 1.5 0 0 1-1.489-1.314l-.39-3.124a.5.5 0 0 1 .106-.374z" />
-                            </svg> </span> <span class="text">Página inicial</span> </a> </li>
-                <li class="sidebar__item"><a class="sidebar__link" href="/" data-tooltip="Favourite"> <span class="icon"> <svg width="16" height="16" fill="currentColor" class="bi bi-star" viewBox="0 0 16 16">
-                                <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.56.56 0 0 0-.163-.505L1.71 6.745l4.052-.576a.53.53 0 0 0 .393-.288L8 2.223l1.847 3.658a.53.53 0 0 0 .393.288l4.052.575-2.906 2.77a.56.56 0 0 0-.163.506l.694 3.957-3.686-1.894a.5.5 0 0 0-.461 0z" />
-                            </svg> </span> <span class="text">Favourite</span> </a> </li>
-                <li class="sidebar__item"> <a class="sidebar__link" href="/" data-tooltip="Sent"> <span class="icon"> <svg width="16" height="16" fill="currentColor" class="bi bi-send" viewBox="0 0 16 16">
-                                <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576zm6.787-8.201L1.591 6.602l4.339 2.76z" />
-                            </svg> </span> <span class="text">Sent</span> </a> </li>
-                <li class="sidebar__item"> <a class="sidebar__link" href="#" data-tooltip="Draft"> <span class="icon"> <svg width="16" height="16" fill="currentColor" class="bi bi-envelope-exclamation" viewBox="0 0 16 16">
-                                <path d="M2 2a2 2 0 0 0-2 2v8.01A2 2 0 0 0 2 14h5.5a.5.5 0 0 0 0-1H2a1 1 0 0 1-.966-.741l5.64-3.471L8 9.583l7-4.2V8.5a.5.5 0 0 0 1 0V4a2 2 0 0 0-2-2zm3.708 6.208L1 11.105V5.383zM1 4.217V4a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v.217l-7 4.2z" />
-                                <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7m.5-5v1.5a.5.5 0 0 1-1 0V11a.5.5 0 0 1 1 0m0 3a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0" />
-                            </svg> </span> <span class="text">Draft</span> </a> </li>
-                <li class="sidebar__item"> <a class="sidebar__link" href="#" data-tooltip="Archive"> <span class="icon"> <svg width="16" height="16" fill="currentColor" class="bi bi-archive" viewBox="0 0 16 16">
-                                <path d="M0 2a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1v7.5a2.5 2.5 0 0 1-2.5 2.5h-9A2.5 2.5 0 0 1 1 12.5V5a1 1 0 0 1-1-1zm2 3v7.5A1.5 1.5 0 0 0 3.5 14h9a1.5 1.5 0 0 0 1.5-1.5V5zm13-3H1v2h14zM5 7.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5" />
-                            </svg> </span> <span class="text">Archive</span> </a> </li>
-                <li class="sidebar__item"> <a class="sidebar__link" href="#" data-tooltip="Trash"> <span class="icon"> <svg width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
-                                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
-                                <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
-                            </svg> </span> <span class="text">Trash</span> </a> </li>
-            </ul>
-            <ul class="sidebar__list list--secondary">
-                <li class="sidebar__item item--heading">
-                    <h2 class="sidebar__item--heading">general</h2>
-                </li>
-                <li class="sidebar__item"> <a class="sidebar__link" href="#" data-tooltip="Profile"> <span class="icon"> <svg width="16" height="16" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
-                                <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />
-                                <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1" />
-                            </svg> </span> <span class="text">Profile</span> </a> </li>
-                <li class="sidebar__item"> <a class="sidebar__link" href="#" data-tooltip="Settings"> <span class="icon"> <svg width="16" height="16" fill="currentColor" class="bi bi-gear" viewBox="0 0 16 16">
-                                <path d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492M5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0" />
-                                <path d="M9.796 1.343c-.527-1.79-3.065-1.79-3.592 0l-.094.319a.873.873 0 0 1-1.255.52l-.292-.16c-1.64-.892-3.433.902-2.54 2.541l.159.292a.873.873 0 0 1-.52 1.255l-.319.094c-1.79.527-1.79 3.065 0 3.592l.319.094a.873.873 0 0 1 .52 1.255l-.16.292c-.892 1.64.901 3.434 2.541 2.54l.292-.159a.873.873 0 0 1 1.255.52l.094.319c.527 1.79 3.065 1.79 3.592 0l.094-.319a.873.873 0 0 1 1.255-.52l.292.16c1.64.893 3.434-.902 2.54-2.541l-.159-.292a.873.873 0 0 1 .52-1.255l.319-.094c1.79-.527 1.79-3.065 0-3.592l-.319-.094a.873.873 0 0 1-.52-1.255l.16-.292c.893-1.64-.902-3.433-2.541-2.54l-.292.159a.873.873 0 0 1-1.255-.52zm-2.633.283c.246-.835 1.428-.835 1.674 0l.094.319a1.873 1.873 0 0 0 2.693 1.115l.291-.16c.764-.415 1.6.42 1.184 1.185l-.159.292a1.873 1.873 0 0 0 1.116 2.692l.318.094c.835.246.835 1.428 0 1.674l-.319.094a1.873 1.873 0 0 0-1.115 2.693l.16.291c.415.764-.42 1.6-1.185 1.184l-.291-.159a1.873 1.873 0 0 0-2.693 1.116l-.094.318c-.246.835-1.428.835-1.674 0l-.094-.319a1.873 1.873 0 0 0-2.692-1.115l-.292.16c-.764.415-1.6-.42-1.184-1.185l.159-.291A1.873 1.873 0 0 0 1.945 8.93l-.319-.094c-.835-.246-.835-1.428 0-1.674l.319-.094A1.873 1.873 0 0 0 3.06 4.377l-.16-.292c-.415-.764.42-1.6 1.185-1.184l.292.159a1.873 1.873 0 0 0 2.692-1.115z" />
-                            </svg> </span> <span class="text">Settings</span> </a> </li>
-                <li class="sidebar__item"> <a class="sidebar__link" href="#" data-tooltip="Logout"> <span class="icon"> <svg width="16" height="16" fill="currentColor" class="bi bi-box-arrow-right" viewBox="0 0 16 16">
-                                <path fill-rule="evenodd" d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0z" />
-                                <path fill-rule="evenodd" d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z" />
-                            </svg> </span> <span class="text">Logout</span> </a> </li>
-            </ul>
-        </section>
-    </nav>
-</aside>
-<div class="main-content">
-  <h1>Bem-vindo, Dr(a).</h1>
-  <p class="subtext">Aqui você pode enviar exames para análise e visualizar os resultados gerados pela nossa IA.</p>
-
-  <section class="upload-section">
-    <h2>📤 Enviar Exame</h2>
-    <form id="upload-form" enctype="multipart/form-data">
-      <label for="exam-image" class="upload-label">
-        <span>Escolher imagem</span>
-        <input type="file" id="exam-image" accept="image/*" hidden>
-      </label>
-      <button type="submit" class="submit-btn">Analisar Exame</button>
-    </form>
-  </section>
-
-  <section class="results-section">
-    <h2>📊 Resultado da IA</h2>
-    <div class="result-box">
-      <p>Aguardando envio de imagem...</p>
-    </div>
-  </section>
-</div>
-
-
-    <div id="chat-button">
-    <i class="bi bi-robot"></i>
-    <div class="notification-badge"></div>
-</div>
-
-<div id="chat-container">
-    <div id="chat-header">
-        <div class="header-content">
-            <i class="bi bi-robot"></i>
-            <span>AetherBot</span>
+        
+        <!-- Layout em Linha -->
+        <div class="dashboard-row">
+            <!-- Seção de Vídeo Demonstrativo -->
+            <section class="demo-section">
+                <div class="section-header">
+                    <h2><i class="bi bi-play-circle"></i> Demonstração</h2>
+                </div>
+                
+                <div class="video-container">
+                    <!-- Substitua pelo seu vídeo embed ou elemento de vídeo HTML5 -->
+                    <div class="video-placeholder">
+                        <i class="bi bi-play-btn"></i>
+                        <p>Vídeo demonstrativo</p>
+                    </div>
+                    <!-- Exemplo com iframe (substitua pelo seu vídeo) -->
+                    <!-- <iframe src="https://www.youtube.com/embed/SEU_VIDEO" frameborder="0" allowfullscreen></iframe> -->
+                </div>
+            </section>
+            
+            <!-- Cards de Funcionalidades -->
+            <div class="dashboard-col">
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="card-icon">
+                            <i class="bi bi-file-medical"></i>
+                        </div>
+                        <h3>Novo Exame</h3>
+                        <p>Envie imagens de exames para análise pela nossa IA.</p>
+                        <a href="#" class="card-link">
+                            Enviar <i class="bi bi-arrow-right"></i>
+                        </a>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="card-icon" style="background-color: var(--accent-color);">
+                            <i class="bi bi-graph-up"></i>
+                        </div>
+                        <h3>Análises</h3>
+                        <p>Visualize resultados dos últimos exames processados.</p>
+                        <a href="#" class="card-link">
+                            Ver <i class="bi bi-arrow-right"></i>
+                        </a>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="card-icon" style="background-color: var(--success-color);">
+                            <i class="bi bi-people"></i>
+                        </div>
+                        <h3>Pacientes</h3>
+                        <p>Acesse o histórico médico dos seus pacientes.</p>
+                        <a href="#" class="card-link">
+                            Gerenciar <i class="bi bi-arrow-right"></i>
+                        </a>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="card-icon" style="background-color: var(--warning-color);">
+                            <i class="bi bi-clock-history"></i>
+                        </div>
+                        <h3>Histórico</h3>
+                        <p>Consulte análises anteriores e comparativos.</p>
+                        <a href="#" class="card-link">
+                            Acessar <i class="bi bi-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="header-actions">
-            <i class="bi bi-dash minimize-btn"></i>
-            <i class="bi bi-x close-btn"></i>
+        
+        <!-- Segunda Linha do Dashboard -->
+        <div class="dashboard-row">
+            <!-- Seção de Upload -->
+            <section class="upload-section" style="flex: 0 0 60%;">
+                <div class="section-header">
+                    <h2><i class="bi bi-upload"></i> Enviar Exame</h2>
+                </div>
+                
+                <div class="upload-area" id="drop-area">
+                    <i class="bi bi-cloud-arrow-up upload-icon"></i>
+                    <div class="upload-text">
+                        <h3>Arraste e solte seu exame aqui</h3>
+                        <p>Ou clique para selecionar o arquivo</p>
+                    </div>
+                    <input type="file" id="file-input" class="file-input" accept="image/*,.pdf">
+                    <label for="file-input" class="upload-btn">
+                        <i class="bi bi-folder2-open"></i> Selecionar Arquivo
+                    </label>
+                </div>
+                
+                <div style="text-align: center;">
+                    <button class="upload-btn" style="padding: 8px 20px;">
+                        <i class="bi bi-send"></i> Enviar para Análise
+                    </button>
+                </div>
+            </section>
+            
+            <!-- Seção de Resultados -->
+            <section class="results-section">
+                <div class="section-header">
+                    <h2><i class="bi bi-clipboard2-pulse"></i> Resultado</h2>
+                </div>
+                
+                <div class="result-box">
+                    <div class="result-content">
+                        <i class="bi bi-file-earmark-text" style="font-size: 1.5rem; color: #bdc3c7; margin-bottom: 10px;"></i>
+                        <h3>Nenhum exame enviado</h3>
+                        <p>Envie um exame para receber a análise da IA</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Chatbot -->
+    <button id="chat-button">
+        <i class="bi bi-robot"></i>
+    </button>
+    
+    <div id="chat-container">
+        <div id="chat-header">
+            <div class="chat-title">
+                <i class="bi bi-robot"></i>
+                <span>Assistente Médico</span>
+            </div>
+            <div class="chat-actions">
+                <button class="chat-action-btn">
+                    <i class="bi bi-dash"></i>
+                </button>
+                <button class="chat-action-btn" id="close-chat">
+                    <i class="bi bi-x"></i>
+                </button>
+            </div>
+        </div>
+        
+        <div id="chat-messages">
+            <div class="message bot">
+                <div class="message-content">
+                    Olá, Dr(a)! Sou o MedVision AI, seu assistente virtual. Como posso ajudar hoje?
+                </div>
+                <div class="message-time">10:42</div>
+            </div>
+        </div>
+        
+        <div id="chat-input-container">
+            <input type="text" id="chat-input" placeholder="Digite sua mensagem...">
+            <button id="send-button">
+                <i class="bi bi-send"></i>
+            </button>
         </div>
     </div>
-    <div id="chat-messages">
-        <div class="message bot">
-            <div class="message-content">🤖 Olá! Como posso ajudar hoje?</div>
-            <div class="message-time">10:42</div>
-        </div>
-    </div>
-    <div id="chat-input-container">
-        <input type="text" id="chat-input" placeholder="Digite sua mensagem...">
-        <button id="send-button">
-            <i class="bi bi-send"></i>
-        </button>
-    </div>
-</div>
+
+    <script>
+        // Toggle Sidebar
+        const sidebarToggle = document.getElementById('sidebar-toggle');
+        const sidebar = document.querySelector('.vertical-sidebar');
+        
+        sidebarToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('collapsed');
+        });
+        
+        // Chatbot Toggle
+        const chatButton = document.getElementById('chat-button');
+        const chatContainer = document.getElementById('chat-container');
+        const closeChat = document.getElementById('close-chat');
+        
+        chatButton.addEventListener('click', () => {
+            chatContainer.style.display = chatContainer.style.display === 'flex' ? 'none' : 'flex';
+        });
+        
+        closeChat.addEventListener('click', () => {
+            chatContainer.style.display = 'none';
+        });
+        
+        // Drag and Drop for Upload
+        const dropArea = document.getElementById('drop-area');
+        const fileInput = document.getElementById('file-input');
+        
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            dropArea.addEventListener(eventName, preventDefaults, false);
+        });
+        
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+        
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropArea.addEventListener(eventName, highlight, false);
+        });
+        
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropArea.addEventListener(eventName, unhighlight, false);
+        });
+        
+        function highlight() {
+            dropArea.style.borderColor = 'var(--primary-color)';
+            dropArea.style.backgroundColor = 'rgba(52, 152, 219, 0.05)';
+        }
+        
+        function unhighlight() {
+            dropArea.style.borderColor = 'var(--border-color)';
+            dropArea.style.backgroundColor = 'transparent';
+        }
+        
+        dropArea.addEventListener('drop', handleDrop, false);
+        
+        function handleDrop(e) {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            fileInput.files = files;
+            handleFiles(files);
+        }
+        
+        fileInput.addEventListener('change', function() {
+            handleFiles(this.files);
+        });
+        
+        function handleFiles(files) {
+            if (files.length) {
+                const file = files[0];
+                const reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    dropArea.innerHTML = `
+                        <div style="text-align: center;">
+                            <i class="bi bi-file-earmark-text" style="font-size: 1.5rem; color: var(--primary-color);"></i>
+                            <h3 style="margin: 8px 0 4px; font-size: 0.9rem;">${file.name}</h3>
+                            <p style="color: #7f8c8d; font-size: 0.75rem;">${(file.size / 1024).toFixed(2)} KB</p>
+                        </div>
+                    `;
+                };
+                
+                reader.readAsDataURL(file);
+            }
+        }
+        
+        // Simulate AI Analysis (demo only)
+        document.querySelector('.upload-btn').addEventListener('click', function() {
+            const fileInput = document.getElementById('file-input');
+            if (fileInput.files.length) {
+                setTimeout(() => {
+                    document.querySelector('.result-content').innerHTML = `
+                        <h3>Análise Completa</h3>
+                        <p style="font-size: 0.85rem;">Resultados da análise:</p>
+                        
+                        <div style="text-align: left; margin: 15px 0;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 0.85rem;">
+                                <span>Normalidade</span>
+                                <span>85%</span>
+                            </div>
+                            <div class="confidence-meter">
+                                <div class="confidence-level"></div>
+                            </div>
+                        </div>
+                        
+                        <p style="text-align: left; font-size: 0.85rem;">Resultado dentro dos parâmetros normais, sem alterações significativas.</p>
+                        
+                        <div class="result-actions">
+                            <button class="action-btn primary-btn">
+                                <i class="bi bi-download"></i> Relatório
+                            </button>
+                            <button class="action-btn secondary-btn">
+                                <i class="bi bi-share"></i> Compartilhar
+                            </button>
+                        </div>
+                    `;
+                }, 2000);
+            }
+        });
+
+        // Mobile menu toggle for sidebar
+        function handleMobileView() {
+            if (window.innerWidth < 1200) {
+                sidebar.classList.add('collapsed');
+            }
+        }
+
+        // Initialize and add resize listener
+        window.addEventListener('load', handleMobileView);
+        window.addEventListener('resize', handleMobileView);
+    </script>
 </body>
-<script src="static\src\chatbot.js"></script>
 </html>
