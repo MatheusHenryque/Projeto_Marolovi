@@ -11,6 +11,14 @@ def index():
 def dashboard():
     return render_template("dashboard.html")
 
+@app.route("/oftsys")
+def oftsys():
+    return render_template("oftsys.html")
+
+@app.route("/analises")
+def analises():
+    return render_template("analises.html")
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=int(os.getenv("PORT", 5000)), debug=True)
