@@ -1,10 +1,9 @@
 Flask
 gunicorn
 flask-cors
-groq
 llama-index
+llama-index-llms-groq
 huggingface-hub
 sentence-transformers
 python-dotenv
 transformers
-
