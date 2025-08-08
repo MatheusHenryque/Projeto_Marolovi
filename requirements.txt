@@ -3,6 +3,8 @@ gunicorn
 flask-cors
 llama-index
 llama-index-llms-groq
+llama-index-embeddings-huggingface
+llama-index-embeddings-openai
 huggingface-hub
 sentence-transformers
 python-dotenv
