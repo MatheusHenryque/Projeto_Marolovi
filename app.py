@@ -6,7 +6,7 @@ from flask import Flask, render_template
 # from llama_index.core.vector_stores import SimpleVectorStore
 # from llama_index.core import Settings
 # from dotenv import load_dotenv
-# import os
+import os
 
 app = Flask(__name__)
 '''load_dotenv()
