@@ -1,12 +1,12 @@
-from flask import Flask, render_template, request, jsonify
-from llama_index.llms.groq import Groq
-from llama_index.core import VectorStoreIndex, SimpleDirectoryReader, StorageContext
-from llama_index.embeddings.huggingface import HuggingFaceEmbedding
-from llama_index.core.memory import ChatSummaryMemoryBuffer
-from llama_index.core.vector_stores import SimpleVectorStore
-from llama_index.core import Settings
-from dotenv import load_dotenv
-import os
+from flask import Flask, render_template
+# from llama_index.llms.groq import Groq
+# from llama_index.core import VectorStoreIndex, SimpleDirectoryReader, StorageContext
+# from llama_index.embeddings.huggingface import HuggingFaceEmbedding
+# from llama_index.core.memory import ChatSummaryMemoryBuffer
+# from llama_index.core.vector_stores import SimpleVectorStore
+# from llama_index.core import Settings
+# from dotenv import load_dotenv
+# import os
 
 app = Flask(__name__)
 '''load_dotenv()
