@@ -6,6 +6,5 @@ llama-index
 huggingface-hub
 sentence-transformers
 python-dotenv
-torch
 transformers
 
