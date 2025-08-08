@@ -468,27 +468,6 @@ main {
     align-items: center;
 }
 
-/* Forma de Fundo - Atualizada */
-.formaFundo {
-    position: absolute;
-    top: 50%;
-    left: 30%;
-    width: 800px;
-    height: 800px;
-    background: linear-gradient(135deg, rgba(0, 127, 127, 0.1), rgba(164, 210, 205, 0.3));
-    border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
-    z-index: 0;
-    transform: translate(-50%, -50%);
-    animation: float 12s ease-in-out infinite;
-}
-
-@keyframes float {
-    0% { transform: translate(-50%, -50%) rotate(0deg); }
-    50% { transform: translate(-50%, -53%) rotate(3deg); }
-    100% { transform: translate(-50%, -50%) rotate(0deg); }
-}
-
-/* Quadrados - Melhorias */
 .quadrados {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -508,6 +487,7 @@ main {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    border-radius: 10px;
     padding: 30px;
     text-align: center;
     transition: all 0.4s ease;
@@ -520,7 +500,7 @@ main {
 .quadrado-icon {
     font-size: 1.5rem;
     font-weight: 700;
-    color: #007F7F;
+    color: #335876;
     margin-bottom: 15px;
     transition: all 0.4s ease;
 }
@@ -543,7 +523,7 @@ main {
     left: 0;
     width: 100%;
     height: 4px;
-    background: linear-gradient(90deg, #007F7F, #A4D2CD);
+    background: linear-gradient(90deg, #507ea4, #7db0da);
     transform: scaleX(0);
     transform-origin: left;
     transition: transform 0.4s ease;
@@ -928,8 +908,8 @@ main {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
+  width: 50px;
+  height: 50px;
   background-color: rgba(255,255,255,0.1);
   border-radius: 50%;
   color: white;
