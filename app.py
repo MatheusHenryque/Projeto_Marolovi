@@ -7,6 +7,26 @@ from flask import Flask, render_template
 # from llama_index.core import Settings
 # from dotenv import load_dotenv
 import os
+import io
+import numpy as np
+from PIL import Image
+from flask import Flask, request, jsonify, render_template
+from tensorflow.keras.models import load_model
+from tensorflow.keras.preprocessing import image
+from ultralytics import YOLO
+import torch
+
+IMG_SIZE = (224, 224)
+keras_model = load_model("Models/Modelo_Keras_Improved.h5")
+yolo_model = YOLO("Models/Modelo_Yolov11_Improve_Final.pt")
+
+def preprocess_image_keras(img, target_size=IMG_SIZE):
+    if img.mode != "RGB":
+        img = img.convert("RGB")
+    img = img.resize(target_size)
+    img_array = image.img_to_array(img)
+    img_array = np.expand_dims(img_array, axis=0) / 255.0
+    return img_array
 
 app = Flask(__name__)
 '''load_dotenv()
@@ -61,6 +81,37 @@ def chat():
 @app.route("/oftsys")
 def oftsys():
     return render_template("oftsys.html")
+
+@app.route("/predict", methods=["POST"])
+def predict():
+    if "file" not in request.files:
+        return jsonify({"error": "Nenhuma imagem enviada"}), 400
+
+    file = request.files["file"]
+    img = Image.open(io.BytesIO(file.read()))
+
+    # ======== Predição Keras =========
+    keras_input = preprocess_image_keras(img)
+    keras_pred = keras_model.predict(keras_input, verbose=0)
+    keras_confidence = float(np.max(keras_pred))
+    keras_class = int(np.argmax(keras_pred))
+
+    # ======== Predição YOLOv11 =========
+    img_resized = img.resize(IMG_SIZE)
+    yolo_result = yolo_model(img_resized, imgsz=224, verbose=False)[0]
+    yolo_class = int(torch.argmax(yolo_result.probs.data).item())
+    yolo_confidence = float(torch.max(yolo_result.probs.data).item())
+
+    return jsonify({
+    "keras": {
+        "predicted_class": keras_class,
+        "confidence": keras_confidence
+    },
+    "yolo": {
+        "predicted_class": yolo_class,
+        "confidence": yolo_confidence
+    }
+    })
 
 @app.route("/analises")
 def analises():
