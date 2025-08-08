@@ -17,7 +17,7 @@ def init_chat_engine():
         raise ValueError("API_KEY não encontrada no ambiente. Verifique o .env")
 
     embed_model = HuggingFaceEmbedding(model_name="intfloat/multilingual-e5-large")
-    llm = Groq(model="llama3-70b-8192", api_key=api_key)
+    llm = Groq(model="llama3-8b-8192", api_key=api_key)
 
     Settings.embed_model = embed_model
     Settings.llm = llm
