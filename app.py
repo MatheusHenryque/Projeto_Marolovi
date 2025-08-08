@@ -16,7 +16,7 @@ def init_chat_engine():
     if not api_key:
         raise ValueError("API_KEY não encontrada no ambiente. Verifique o .env")
 
-    embed_model = HuggingFaceEmbedding(model_name="intfloat/multilingual-e5-large")
+    embed_model = HuggingFaceEmbedding(model_name="all-MiniLM-L6-v2")
     llm = Groq(model="llama3-8b-8192", api_key=api_key)
 
     Settings.embed_model = embed_model
@@ -69,4 +69,4 @@ def analises():
     return render_template("analises.html")
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=int(os.getenv("PORT", 5000)), debug=True)
+    app.run(host='0.0.0.0', port=int(os.getenv("PORT", 5000)))
