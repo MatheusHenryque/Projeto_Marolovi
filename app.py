@@ -9,7 +9,7 @@ from dotenv import load_dotenv
 import os
 
 app = Flask(__name__)
-load_dotenv()
+'''load_dotenv()
 
 def init_chat_engine():
     api_key = os.getenv("GROQ_API_KEY")
@@ -38,7 +38,7 @@ def init_chat_engine():
         )
     )
 
-chat_engine = init_chat_engine()
+chat_engine = init_chat_engine()'''
 
 @app.route("/")
 def index():
@@ -48,9 +48,7 @@ def index():
 def dashboard():
     return render_template("dashboard.html")
 
-
-
-@app.route("/chat", methods=["POST"])
+'''@app.route("/chat", methods=["POST"])
 def chat():
     data = request.get_json()
     pergunta = data.get("mensagem", "")
@@ -58,7 +56,7 @@ def chat():
         return jsonify({"resposta": "Por favor, envie uma pergunta válida."})
 
     resposta = chat_engine.chat(pergunta).response
-    return jsonify({"resposta": resposta}) 
+    return jsonify({"resposta": resposta}) '''
 
 @app.route("/oftsys")
 def oftsys():

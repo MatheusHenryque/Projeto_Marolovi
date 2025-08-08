@@ -1,9 +1,9 @@
 Flask
 gunicorn
 flask-cors
-llama-index
-llama-index-llms-groq
-llama-index-embeddings-huggingface
-llama-index-embeddings-openai
+# llama-index
+# llama-index-llms-groq
+# llama-index-embeddings-huggingface
+# llama-index-embeddings-openai
 python-dotenv
 
