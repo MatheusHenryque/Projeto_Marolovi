@@ -17,8 +17,8 @@ from ultralytics import YOLO
 import torch
 
 IMG_SIZE = (224, 224)
-keras_model = load_model("Models/Modelo_Keras_Improved.h5")
-yolo_model = YOLO("Models/Modelo_Yolov11_Improve_Final.pt")
+keras_model = load_model("Projeto_Marolovi\Models\Modelo_Keras_Improved.h5")
+yolo_model = YOLO("Projeto_Marolovi\Models/Modelo_Yolov11_Improve_Final.pt")
 
 def preprocess_image_keras(img, target_size=IMG_SIZE):
     if img.mode != "RGB":
@@ -62,7 +62,7 @@ chat_engine = init_chat_engine()'''
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    return render_template("index.html", produto="produto.html")
 
 @app.route("/dashboard")
 def dashboard():
@@ -116,6 +116,11 @@ def predict():
 @app.route("/analises")
 def analises():
     return render_template("analises.html")
+
+@app.route("/produto")
+def produto():
+    return render_template("produto.html")
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=int(os.getenv("PORT", 5000)))
