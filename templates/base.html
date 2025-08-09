@@ -1,6 +1,4 @@
 <!-- templates/base.html -->
-<!DOCTYPE html>
-<html lang="pt-BR">
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,7 +13,7 @@
   </head>
 <body>
     <header>
-    <div class="logo">
+    <div class="logo" href="#">
       <div class="logo-icon">
         <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
           <g clip-path="url(#clip0_6_319)">
@@ -31,9 +29,9 @@
 
     <nav>
       <div class="nav-links">
-        <a href="produto.html">Produto</a>
-        <a href="#">Como funciona</a>
-        <a href="#">Recursos</a>
+        <a href="produto">Produto</a>
+        <a href="como-funciona">Como funciona</a>
+        <a href="recursos">Recursos</a>
       </div>
       <button class="btn-primary">
         <a href="/dashboard"><span>Testar agora</span></a>
@@ -50,8 +48,8 @@
   <div class="menu-mobile" id="menuMobile">
     <ul>
       <li><a href="produto">Produto</a></li>
-      <li><a href="#">Como funciona</a></li>
-      <li><a href="#">Recursos</a></li>
+      <li><a href="como-funciona">Como funciona</a></li>
+      <li><a href="recursos">Recursos</a></li>
       <a href="/dashboard">
         <li class="btn-contato-mobile">Começar agora</li>
       </a>
@@ -116,4 +114,4 @@
         <script src="static\src\script.js"></script>
   </footer>
 </body>
-</html>
+

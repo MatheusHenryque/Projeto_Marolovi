@@ -62,7 +62,7 @@ chat_engine = init_chat_engine()'''
 
 @app.route("/")
 def index():
-    return render_template("index.html", produto="produto.html")
+    return render_template("index.html")
 
 @app.route("/dashboard")
 def dashboard():
@@ -120,6 +120,14 @@ def analises():
 @app.route("/produto")
 def produto():
     return render_template("produto.html")
+
+@app.route("/como-funciona")
+def como_funciona():
+    return render_template("como-funciona.html")
+
+@app.route("/recursos")
+def recursos():
+    return render_template("recursos.html")
 
 
 if __name__ == '__main__':
