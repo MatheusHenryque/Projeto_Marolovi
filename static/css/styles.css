@@ -957,3 +957,92 @@ main {
     gap: 0.5rem;
   }
 }
+
+/* Seção Compre nosso SaaS */
+.buy-saas-section {
+  padding: 4rem 1.5rem;
+  text-align: center;
+  border-radius: 12px;
+  margin: 10% auto;
+  max-width: 900px;
+  box-shadow: 0 10px 30px rgba(28, 91, 133, 0.3);
+}
+
+.buy-saas-container {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.buy-saas-subtitle {
+  font-size: 1.25rem;
+  font-weight: 500;
+  margin: 1rem 0 2rem;
+
+}
+
+.buy-saas-benefits {
+  list-style: none;
+  padding-left: 0;
+  margin-bottom: 2.5rem;
+  font-size: 1.125rem;
+  line-height: 1.6;
+}
+
+.buy-saas-benefits li {
+  margin-bottom: 1rem;
+  text-align: left;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+  padding-left: 1.8rem;
+}
+
+.buy-saas-benefits li::before {
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-size: 1.2rem;
+  line-height: 1;
+  color: #7cd2f5;
+}
+
+.buy-saas-cta {
+  background-color: #f8fafc;
+  color: #1c5b85;
+  padding: 1rem 2.5rem;
+  font-size: 1.125rem;
+  font-weight: 700;
+  border-radius: 0.6rem;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  box-shadow: 0 6px 15px rgba(248, 250, 252, 0.7);
+  width: fit-content;
+  margin: 0 auto;
+}
+
+.buy-saas-cta:hover {
+  background-color: #d4e8f4;
+  color: #144a65;
+}
+
+/* Responsivo */
+@media (max-width: 480px) {
+  .buy-saas-section {
+    padding: 3rem 1rem;
+  }
+
+  .buy-saas-subtitle {
+    font-size: 1.1rem;
+  }
+
+  .buy-saas-benefits {
+    font-size: 1rem;
+  }
+
+  .buy-saas-cta {
+    width: 100%;
+    padding: 1rem;
+  }
+}
