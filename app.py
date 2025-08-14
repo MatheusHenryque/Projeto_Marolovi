@@ -11,12 +11,12 @@ import io
 import numpy as np
 from PIL import Image
 from flask import Flask, request, jsonify, render_template
-from tensorflow.keras.models import load_model
-from tensorflow.keras.preprocessing import image
+# from tensorflow.keras.models import load_model
+# from tensorflow.keras.preprocessing import image
 from ultralytics import YOLO
 import torch
 
-IMG_SIZE = (224, 224)
+'''IMG_SIZE = (224, 224)
 yolo_model = YOLO("Projeto_Marolovi/Models/Modelo_Yolov11_Improve_Final.pt")
 keras_model = load_model("Projeto_Marolovi/Models/Modelo_Keras_Improved.h5")
 
@@ -27,7 +27,7 @@ def preprocess_image_keras(img, target_size=IMG_SIZE):
     img = img.resize(target_size)
     img_array = image.img_to_array(img)
     img_array = np.expand_dims(img_array, axis=0) / 255.0
-    return img_array
+    return img_array'''
 
 app = Flask(__name__)
 '''load_dotenv()
@@ -83,7 +83,7 @@ def chat():
 def oftsys():
     return render_template("oftsys.html")
 
-@app.route("/predict", methods=["POST"])
+'''@app.route("/predict", methods=["POST"])
 def predict():
     if "file" not in request.files:
         return jsonify({"error": "Nenhuma imagem enviada"}), 400
@@ -112,7 +112,7 @@ def predict():
         "predicted_class": yolo_class,
         "confidence": yolo_confidence
     }
-    })
+    })'''
 
 @app.route("/analises")
 def analises():
