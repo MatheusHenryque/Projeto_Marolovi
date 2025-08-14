@@ -17,8 +17,9 @@ from ultralytics import YOLO
 import torch
 
 IMG_SIZE = (224, 224)
-keras_model = load_model("Projeto_Marolovi\Models\Modelo_Keras_Improved.h5")
-yolo_model = YOLO("Projeto_Marolovi\Models/Modelo_Yolov11_Improve_Final.pt")
+yolo_model = YOLO("Projeto_Marolovi/Models/Modelo_Yolov11_Improve_Final.pt")
+keras_model = load_model("Projeto_Marolovi/Models/Modelo_Keras_Improved.h5")
+
 
 def preprocess_image_keras(img, target_size=IMG_SIZE):
     if img.mode != "RGB":
