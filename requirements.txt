@@ -4,11 +4,3 @@ Flask
 gunicorn
 flask-cors
 python-dotenv
-pandas
-scikit-learn
-tensorflow
-keras
-ultralytics
-torch
-torchvision
-Pillow
