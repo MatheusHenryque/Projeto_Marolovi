@@ -1,4 +1,6 @@
-from flask import Flask, render_template
+from flask import Flask, request, jsonify, render_template
+import os
+import io
 # from llama_index.llms.groq import Groq
 # from llama_index.core import VectorStoreIndex, SimpleDirectoryReader, StorageContext
 # from llama_index.embeddings.huggingface import HuggingFaceEmbedding
@@ -6,15 +8,14 @@ from flask import Flask, render_template
 # from llama_index.core.vector_stores import SimpleVectorStore
 # from llama_index.core import Settings
 # from dotenv import load_dotenv
-import os
-import io
-import numpy as np
-from PIL import Image
-from flask import Flask, request, jsonify, render_template
+# import numpy as np
+# from PIL import Image
 # from tensorflow.keras.models import load_model
 # from tensorflow.keras.preprocessing import image
-from ultralytics import YOLO
-import torch
+# from ultralytics import YOLO
+# import torch
+
+app = Flask(__name__)
 
 '''IMG_SIZE = (224, 224)
 yolo_model = YOLO("Projeto_Marolovi/Models/Modelo_Yolov11_Improve_Final.pt")
@@ -29,7 +30,7 @@ def preprocess_image_keras(img, target_size=IMG_SIZE):
     img_array = np.expand_dims(img_array, axis=0) / 255.0
     return img_array'''
 
-app = Flask(__name__)
+
 '''load_dotenv()
 
 def init_chat_engine():
