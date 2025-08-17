@@ -119,6 +119,10 @@ def predict():
 def analises():
     return render_template("analises.html")
 
+@app.route("/oftsys-cadastro-paciente")
+def cadastro_paciente():
+    return render_template("oftsys-cadastro-paciente.html")
+
 @app.route("/produto")
 def produto():
     return render_template("produto.html")

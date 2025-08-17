@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="static/css/dashboard.css">
     <link rel="stylesheet" href="static/css/oftsys.css">
+    <link rel="stylesheet" href="static/css/form-patient.css">
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <title>oftsys</title>
 </head>
@@ -64,64 +66,42 @@
     </div>
 
 
-    <div class="upload-card">
+    <div class="form-card">
         <div class="upload-card-header">
-            <h2><i class="fas fa-cloud-upload-alt"></i> Carregar Exame de Imagem</h2>
+            <h2><i class="fas fa-cloud-upload-alt"></i> Informações do Paciente</h2>
         </div>
         
-        <div class="medical-drop-zone" id="dropZone">
-            <div class="drop-zone-content">
-                <i class="fas fa-x-ray"></i>
-                <h3>Arraste seu exame de imagem aqui</h3>
-                <p>Ou clique para selecionar do computador</p>
-                <input type="file" id="medicalFileInput" accept="image/dicom,image/*">
-            </div>
-            <div class="progress-bar" id="uploadProgress" style="display: none;">
-                <div class="progress-fill"></div>
-            </div>
+        <div class="form-area">
+            <form class="form-patient-registration" action="/enviar" method="POST" enctype="multipart/form-data" novalidate>
+                <div class="field">
+                    <label for="nome" class="required">Nome</label>
+                    <input id="nome" name="nome" type="text" required minlength="2" maxlength="80"/>
+                </div>
+                <div class="field">
+                    <label for="nascimento">Data de nascimento</label>
+                    <input id="nascimento" name="nascimento" type="date" />
+                </div>
+                <fieldset class="field">
+                    <legend class="required">Sexo</legend>
+                    <div class="inline">
+                        <label class="gender"><input type="radio" name="plano" value="feminino" required /> Feminino</label>
+                        <label class="gender"><input type="radio" name="plano" value="masculino" /> Masculino</label>
+                        <label class="gender"><input type="radio" name="plano" value="outro" /> Outro</label>
+                    </div>
+                </fieldset>
+                <div class="field">
+                    <label for="prontuario">Número de prontuário</label>
+                    <input id="prontuario" name="prontuario" type="number"/>
+                </div>
+            </form>
         </div>
-        
         <div class="upload-card-footer">
-            <button id="analyzeBtn" class="btn-medical-primary">
-                <i class="fas fa-search-plus"></i> ANALISAR IMAGEM
-            </button>
-            <button id="medicalClearBtn" class="btn-medical-secondary">
-                <i class="fas fa-trash-alt"></i> LIMPAR
-            </button>
+            <a href="/oftsys" class="btn-medical-primary">
+                <i class="fas fa-search-plus"></i>CONTINUAR
+            </a>
         </div>
     </div>
-
-    <div class="results-section">
-        <div class="results-header">
-            <h2><i class="fas fa-diagnoses"></i> Resultados da Análise</h2>
-            <div class="indicadoresExame">
-                <div class="confidence-indicator">
-                    <span>Confiança da Análise:</span>
-                    <div class="confidence-bar">
-                        <div class="confidence-level" id="confidenceLevel"></div>
-                    </div>
-                    <span id="confidenceValue">0%</span>
-                </div>
-                <div class="confidence-indicator">
-                    <span>Precisão da Análise:</span>
-                    <div class="confidence-bar">
-                        <div class="confidence-level" id="confidenceLevel"></div>
-                    </div>
-                    <span id="confidenceValue">0%</span>
-                </div>
-                <div class="confidence-indicator">
-                    <span>Taxa de erro:</span>
-                    <div class="confidence-bar">
-                        <div class="confidence-level" id="confidenceLevel"></div>
-                    </div>
-                    <span id="taxaDeErro">0%</span>
-                </div>
-            </div>
-        </div>
         
-        
-            
-        </div>
     </div>
 </div>
     
