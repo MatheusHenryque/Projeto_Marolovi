@@ -72,14 +72,14 @@
         </div>
         
         <div class="form-area">
-            <form class="form-patient-registration" action="/enviar" method="POST" enctype="multipart/form-data" novalidate>
+            <form class="form-patient-registration" action="/oftsys" method="post" enctype="multipart/form-data" >
                 <div class="field">
                     <label for="nome" class="required">Nome</label>
                     <input id="nome" name="nome" type="text" required minlength="2" maxlength="80"/>
                 </div>
                 <div class="field">
-                    <label for="nascimento">Data de nascimento</label>
-                    <input id="nascimento" name="nascimento" type="date" />
+                    <label for="nascimento" >Data de nascimento</label>
+                    <input id="nascimento" name="nascimento" type="date" required />
                 </div>
                 <fieldset class="field">
                     <legend class="required">Sexo</legend>
@@ -90,15 +90,16 @@
                     </div>
                 </fieldset>
                 <div class="field">
-                    <label for="prontuario">Número de prontuário</label>
-                    <input id="prontuario" name="prontuario" type="number"/>
+                    <label for="prontuario" required>Número de prontuário</label>
+                    <input id="prontuario" name="prontuario" type="number" required/>
+                </div>
+
+                <div class="upload-card-footer">
+                    <button type="submit" class="btn-medical-primary" >
+                        <i class="fas fa-search-plus"></i>CONTINUAR
+                    </button>
                 </div>
             </form>
-        </div>
-        <div class="upload-card-footer">
-            <a href="/oftsys" class="btn-medical-primary">
-                <i class="fas fa-search-plus"></i>CONTINUAR
-            </a>
         </div>
     </div>
         

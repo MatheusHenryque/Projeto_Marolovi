@@ -12,8 +12,9 @@
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
   </head>
   <body>
-    <div class="container">
+    <div class="container" style="max-width: 100%;">
       <header>
+    <a href="/">
     <div class="logo">
       <div class="logo-icon">
         <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -27,6 +28,7 @@
       </div>
       <h2>OFTSYS</h2>
     </div>
+    </a>
 
     <nav>
       <div class="nav-links">
@@ -34,9 +36,10 @@
         <a href="como-funciona">Como funciona</a>
         <a href="recursos">Recursos</a>
       </div>
-      <button class="btn-primary">
-        <a href="/dashboard"><span>Testar agora</span></a>
-      </button>
+
+      <a href="/dashboard" class="btn-primary">
+        <span>Testar agora</span>
+      </a>
     </nav>
 
     <div class="btn-menu-mobile" id="menuToggle">

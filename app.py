@@ -80,10 +80,14 @@ def chat():
     resposta = chat_engine.chat(pergunta).response
     return jsonify({"resposta": resposta}) '''
 
-@app.route("/oftsys")
+@app.route("/oftsys", methods=["GET", "POST"])
 def oftsys():
+    if request.method == "POST":
+        # Entrada de dados do form
+        return render_template("oftsys.html")
+    
+    # apenas para desenvolvimento tirar na release
     return render_template("oftsys.html")
-
 '''@app.route("/predict", methods=["POST"])
 def predict():
     if "file" not in request.files:
