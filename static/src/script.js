@@ -16,48 +16,54 @@ document.addEventListener("DOMContentLoaded", function() {
     const analyzeBtn = document.getElementById("analyzeBtn");
 
     analyzeBtn.addEventListener("click", async () => {
-        const fileInput = document.getElementById("medicalFileInput");
+    const fileInput = document.getElementById("medicalFileInput");
 
-        if (fileInput.files.length === 0) {
-            alert("Selecione uma imagem primeiro!");
+    if (fileInput.files.length === 0) {
+        alert("Selecione uma imagem primeiro!");
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append("file", fileInput.files[0]);
+
+    try {
+        const response = await fetch("/predict", {
+            method: "POST",
+            body: formData
+        });
+
+        let data;
+        if (!response.ok) {
+            const text = await response.text();
+            console.error("Erro do servidor:", text);
+            alert("Erro na predição: " + text);
             return;
-        }
-
-        const formData = new FormData();
-        formData.append("file", fileInput.files[0]);
-
-        try {
-            const response = await fetch("/predict", {
-                method: "POST",
-                body: formData
-            });
-
-            // Se a resposta não for 200 OK, pega como texto para ver o erro
-            if (!response.ok) {
-                const errorText = await response.text();
-                console.error("Erro do servidor:", errorText);
-                alert("Erro na predição: " + errorText);
-            } else {
-                const data = await response.json();
-                console.log("Predição Keras:", data.keras);
-                console.log("Predição YOLO:", data.yolo);
+        } else {
+            const text = await response.text();
+            try {
+                data = JSON.parse(text);
+            } catch (err) {
+                console.error("Resposta não é JSON:", text);
+                alert("Erro ao interpretar resposta do servidor");
+                return;
             }
-            const data = await response.json();
-            console.log(data);
-
-            // Atualiza confiança do Keras
-            document.getElementById("confidenceValue").innerText =
-                (data.keras.confidence * 100).toFixed(1) + "%";
-
-            document.getElementById("taxaDeErro").innerText =
-                ((100 - data.keras.confidence * 100)).toFixed(1) + "%";
-            // Aqui você pode adicionar para YOLO também
-            // exemplo: console.log("YOLO:", data.yolo);
-
-        } catch (error) {
-            console.error("Erro ao enviar imagem:", error);
         }
-    });
+
+        // Atualiza confiança do Keras
+        document.getElementById("confidenceValue").innerText =
+            (data.keras.confidence * 100).toFixed(1) + "%";
+
+        document.getElementById("taxaDeErro").innerText =
+            ((100 - data.keras.confidence * 100)).toFixed(1) + "%";
+
+        console.log("Predição Keras:", data.keras);
+        console.log("Predição YOLO:", data.yolo);
+
+    } catch (error) {
+        console.error("Erro ao enviar imagem:", error);
+        alert("Erro ao enviar imagem para o servidor");
+    }
+});
 });
 
 document.addEventListener("DOMContentLoaded", function() {
