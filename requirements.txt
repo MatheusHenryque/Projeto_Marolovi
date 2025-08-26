@@ -1,6 +1,10 @@
-setuptools
-wheel
-Flask
+flask
 gunicorn
-flask-cors
+numpy
+pillow
+tensorflow
+torch
+torchvision
+ultralytics
+scikit-learn
 python-dotenv
