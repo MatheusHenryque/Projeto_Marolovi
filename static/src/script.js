@@ -12,34 +12,30 @@ document.addEventListener('DOMContentLoaded', function() {
   setInterval(changeVideo, 5000);
 });
 
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", () => {
     const analyzeBtn = document.getElementById("analyzeBtn");
-
-    analyzeBtn.addEventListener("click", async () => {
     const fileInput = document.getElementById("medicalFileInput");
+    const dropZone = document.getElementById("dropZone");
+    const confidenceEl = document.getElementById("confidenceValue");
+    const errorRateEl = document.getElementById("taxaDeErro");
 
-    if (fileInput.files.length === 0) {
-        alert("Selecione uma imagem primeiro!");
-        return;
-    }
+    // ===================== Função de envio de imagem =====================
+    async function sendImage(file) {
+        const formData = new FormData();
+        formData.append("file", file);
 
-    const formData = new FormData();
-    formData.append("file", fileInput.files[0]);
+        try {
+            const response = await fetch("/predict", { method: "POST", body: formData });
 
-    try {
-        const response = await fetch("/predict", {
-            method: "POST",
-            body: formData
-        });
-
-        let data;
-        if (!response.ok) {
             const text = await response.text();
-            console.error("Erro do servidor:", text);
-            alert("Erro na predição: " + text);
-            return;
-        } else {
-            const text = await response.text();
+
+            if (!response.ok) {
+                console.error("Erro do servidor:", text);
+                alert("Erro na predição: " + text);
+                return;
+            }
+
+            let data;
             try {
                 data = JSON.parse(text);
             } catch (err) {
@@ -47,55 +43,57 @@ document.addEventListener("DOMContentLoaded", function() {
                 alert("Erro ao interpretar resposta do servidor");
                 return;
             }
+
+            // Atualiza a interface com resultados do Keras
+            confidenceEl.innerText = (data.keras.confidence * 100).toFixed(1) + "%";
+            errorRateEl.innerText = (100 - data.keras.confidence * 100).toFixed(1) + "%";
+
+            console.log("Predição Keras:", data.keras);
+            console.log("Predição YOLO:", data.yolo);
+
+        } catch (error) {
+            console.error("Erro ao enviar imagem:", error);
+            alert("Erro ao enviar imagem para o servidor");
         }
-
-        // Atualiza confiança do Keras
-        document.getElementById("confidenceValue").innerText =
-            (data.keras.confidence * 100).toFixed(1) + "%";
-
-        document.getElementById("taxaDeErro").innerText =
-            ((100 - data.keras.confidence * 100)).toFixed(1) + "%";
-
-        console.log("Predição Keras:", data.keras);
-        console.log("Predição YOLO:", data.yolo);
-
-    } catch (error) {
-        console.error("Erro ao enviar imagem:", error);
-        alert("Erro ao enviar imagem para o servidor");
     }
-});
-});
 
-document.addEventListener("DOMContentLoaded", function() {
-    const dropZone = document.getElementById("dropZone");
-    const fileInput = document.getElementById("medicalFileInput");
-
-    // Clicar na zona abre o seletor de arquivos
-    dropZone.addEventListener("click", () => {
-        fileInput.click();
+    // ===================== Botão Analyze =====================
+    analyzeBtn.addEventListener("click", () => {
+        if (fileInput.files.length === 0) {
+            alert("Selecione uma imagem primeiro!");
+            return;
+        }
+        sendImage(fileInput.files[0]);
     });
 
-    // Opcional: destacar área quando arrastar
+    // ===================== Drag and Drop =====================
+    dropZone.addEventListener("click", () => fileInput.click());
+
     dropZone.addEventListener("dragover", (e) => {
         e.preventDefault();
         dropZone.classList.add("drag-over");
     });
 
-    dropZone.addEventListener("dragleave", () => {
-        dropZone.classList.remove("drag-over");
-    });
+    dropZone.addEventListener("dragleave", () => dropZone.classList.remove("drag-over"));
 
-    // Se soltar imagem na área
     dropZone.addEventListener("drop", (e) => {
         e.preventDefault();
         dropZone.classList.remove("drag-over");
-        fileInput.files = e.dataTransfer.files;
+        if (e.dataTransfer.files.length > 0) {
+            fileInput.files = e.dataTransfer.files;
+            sendImage(fileInput.files[0]);
+        }
     });
-});
 
-document.getElementById("analyzeBtn").addEventListener("click", () => {
-    const fileInput = document.getElementById("medicalFileInput");
-    if (fileInput.files.length === 0) {
-        fileInput.click(); // abre modal para selecionar
-    } 
+    // ===================== Vídeo Hero (opcional) =====================
+    const videos = document.querySelectorAll('.hero-video video');
+    let currentVideo = 0;
+
+    if (videos.length > 0) {
+        setInterval(() => {
+            videos[currentVideo].classList.remove('active');
+            currentVideo = (currentVideo + 1) % videos.length;
+            videos[currentVideo].classList.add('active');
+        }, 5000);
+    }
 });
