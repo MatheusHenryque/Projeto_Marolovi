@@ -85,15 +85,4 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // ===================== Vídeo Hero (opcional) =====================
-    const videos = document.querySelectorAll('.hero-video video');
-    let currentVideo = 0;
-
-    if (videos.length > 0) {
-        setInterval(() => {
-            videos[currentVideo].classList.remove('active');
-            currentVideo = (currentVideo + 1) % videos.length;
-            videos[currentVideo].classList.add('active');
-        }, 5000);
-    }
 });

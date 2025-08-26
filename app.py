@@ -95,30 +95,41 @@ def predict():
         return jsonify({"error": "Nenhuma imagem enviada"}), 400
 
     file = request.files["file"]
-    img = Image.open(io.BytesIO(file.read()))
+    
+    # ✅ Bloco try...except para capturar erros internos
+    try:
+        img = Image.open(io.BytesIO(file.read()))
 
-    # ======== Predição Keras =========
-    keras_input = preprocess_image_keras(img)
-    keras_pred = keras_model.predict(keras_input, verbose=0)
-    keras_confidence = float(np.max(keras_pred))
-    keras_class = int(np.argmax(keras_pred))
+        # ======== Predição Keras =========
+        keras_input = preprocess_image_keras(img)
+        keras_pred = keras_model.predict(keras_input, verbose=0)
+        keras_confidence = float(np.max(keras_pred))
+        keras_class = int(np.argmax(keras_pred))
 
-    # ======== Predição YOLOv11 =========
-    img_resized = img.resize(IMG_SIZE)
-    yolo_result = yolo_model(img_resized, imgsz=224, verbose=False)[0]
-    yolo_class = int(torch.argmax(yolo_result.probs.data).item())
-    yolo_confidence = float(torch.max(yolo_result.probs.data).item())
+        # ======== Predição YOLO =========
+        img_resized = img.resize(IMG_SIZE)
+        yolo_result = yolo_model(img_resized, imgsz=224, verbose=False)[0]
+        yolo_class = int(torch.argmax(yolo_result.probs.data).item())
+        yolo_confidence = float(torch.max(yolo_result.probs.data).item())
 
-    return jsonify({
-    "keras": {
-        "predicted_class": keras_class,
-        "confidence": keras_confidence
-    },
-    "yolo": {
-        "predicted_class": yolo_class,
-        "confidence": yolo_confidence
-    }
-    })
+        # Resposta de sucesso (JSON)
+        return jsonify({
+            "keras": {
+                "predicted_class": keras_class,
+                "confidence": keras_confidence
+            },
+            "yolo": {
+                "predicted_class": yolo_class,
+                "confidence": yolo_confidence
+            }
+        })
+
+    except Exception as e:
+        # 🐛 Em caso de QUALQUER erro, logue no console do servidor para depuração
+        print(f"Ocorreu um erro durante a predição: {e}")
+        # E retorne uma resposta de erro, mas ainda em formato JSON
+        return jsonify({"error": "Falha ao processar a imagem no servidor."}), 500
+
 
 @app.route("/analises")
 def analises():
