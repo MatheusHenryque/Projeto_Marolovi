@@ -32,6 +32,16 @@ document.addEventListener("DOMContentLoaded", function() {
                 body: formData
             });
 
+            // Se a resposta não for 200 OK, pega como texto para ver o erro
+            if (!response.ok) {
+                const errorText = await response.text();
+                console.error("Erro do servidor:", errorText);
+                alert("Erro na predição: " + errorText);
+            } else {
+                const data = await response.json();
+                console.log("Predição Keras:", data.keras);
+                console.log("Predição YOLO:", data.yolo);
+            }
             const data = await response.json();
             console.log(data);
 
@@ -81,8 +91,5 @@ document.getElementById("analyzeBtn").addEventListener("click", () => {
     const fileInput = document.getElementById("medicalFileInput");
     if (fileInput.files.length === 0) {
         fileInput.click(); // abre modal para selecionar
-    } else {
-        // aqui chama a função de envio para o backend
-        enviarImagem();
-    }
+    } 
 });
