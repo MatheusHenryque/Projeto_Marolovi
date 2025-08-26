@@ -18,8 +18,8 @@ import torch
 app = Flask(__name__)
 
 IMG_SIZE = (224, 224)
-yolo_model = YOLO("Projeto_Marolovi/Models/Modelo_Yolov11_Improve_Final.pt")
-keras_model = load_model("Projeto_Marolovi/Models/Modelo_Keras_Improved.h5")
+yolo_model = YOLO("Models/Modelo_Yolov11_Improve_Final.pt")
+keras_model = load_model("Models/Modelo_Keras_Improved.h5")
 
 
 def preprocess_image_keras(img, target_size=IMG_SIZE):
@@ -88,6 +88,7 @@ def oftsys():
     
     # apenas para desenvolvimento tirar na release
     return render_template("oftsys.html")
+
 @app.route("/predict", methods=["POST"])
 def predict():
     if "file" not in request.files:
