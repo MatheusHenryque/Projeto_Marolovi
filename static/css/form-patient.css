@@ -65,3 +65,35 @@ a {
   font-weight: 400 !important;
   text-align: center;
 }
+
+
+/* --- REGRAS PARA RESPONSIVIDADE EM CELULARES --- */
+@media (max-width: 768px) {
+    /* 1. Ajusta o layout principal (igual ao anterior) */
+
+    .main-content {
+        margin-left: 0;
+        padding: 1rem;
+    }
+
+    /* 2. Transforma o grid do formulário para uma única coluna */
+    .form-patient-registration {
+        grid-template-columns: 1fr; /* Mágica acontece aqui! */
+        gap: 1.5rem;
+    }
+
+    /* 3. Ajusta o espaçamento do card do formulário */
+    .form-area {
+        padding: 2rem 1rem; /* Reduz o padding para telas menores */
+    }
+
+    /* 4. Permite que os botões de sexo quebrem a linha se necessário */
+    .inline {
+        flex-wrap: wrap;
+    }
+
+    /* 5. Ajusta o tamanho do título */
+    .medical-header h1 {
+        font-size: 1.5rem;
+    }
+}

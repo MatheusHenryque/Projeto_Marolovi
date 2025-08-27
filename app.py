@@ -88,7 +88,7 @@ def predict():
                 confidence_keras = float(keras_pred_value)
             else:
                 predicted_class_keras = 0
-                confidence_keras = 1.0 - float(keras_pred_value)
+                confidence_keras = 1.0 - float(keras_pred_value) 
 
             yolo_input = get_yolo_input(processed_img)
             yolo_pred = yolo_session.run(None, {yolo_input_name: yolo_input})[0]

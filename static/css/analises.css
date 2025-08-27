@@ -154,3 +154,84 @@
 .disclaimer i {
     font-size: 1.2rem;
 }
+
+/* --- REGRAS PARA RESPONSIVIDADE EM CELULARES --- */
+@media (max-width: 768px) {
+    /* 1. Esconde a sidebar e ajusta o conteúdo principal */
+
+
+    main.main-content {
+        /* O conteúdo principal agora ocupa toda a largura */
+        margin-left: 0;
+        padding: 0;
+    }
+
+    /* 2. Ajusta o título e o card de informações do paciente */
+    .medical-header h1 {
+        font-size: 1.5rem; /* Diminui o tamanho do título principal */
+    }
+
+    .info-grid {
+        /* Garante uma única coluna para os dados do paciente */
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .card-content {
+        padding: 1rem;
+    }
+
+    /* 3. A MÁGICA: Transforma a tabela em lista de "cards" */
+    .results-table thead {
+        /* Esconde os cabeçalhos da tabela, pois vamos recriá-los */
+        display: none;
+    }
+
+    .results-table tr {
+        display: block; /* Faz cada linha da tabela se comportar como um bloco */
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        margin-bottom: 1rem;
+        padding: 0.5rem;
+    }
+
+    .results-table td {
+        display: flex; /* Usa flexbox para alinhar o rótulo e o valor */
+        justify-content: space-between; /* Coloca o rótulo à esquerda e o valor à direita */
+        align-items: center;
+        padding: 5px;
+        border-bottom: none; /* Remove a linha que separava as células */
+        text-align: right; /* Alinha o texto do valor à direita */
+        font-size: 13px!important;
+    }
+
+    .results-table td:last-child {
+        border-bottom: none;
+    }
+
+    /* Recria os cabeçalhos usando pseudo-elementos ::before */
+    .results-table td::before {
+        content: attr(data-label); /* Pega o texto do atributo 'data-label' */
+        font-weight: 600;
+        color: var(--text-muted-color);
+        text-align: left;
+        margin-right: 1rem;
+    }
+    
+    /* Define o texto do rótulo para cada coluna */
+    .results-table td:nth-of-type(1)::before { content: "Modelo de IA"; }
+    .results-table td:nth-of-type(2)::before { content: "Diagnóstico"; }
+    .results-table td:nth-of-type(3)::before { content: "Confiança"; }
+
+    /* Ajustes finos para os conteúdos das células */
+    .model-name{
+        font-size: 1rem;
+    }
+
+    .confidence-display {
+        gap: 0.5rem;
+        justify-content: flex-end; /* Garante alinhamento à direita */
+        width: auto; /* Permite que o display de confiança encolha */
+        max-width: 150px; /* Evita que a barra de progresso cresça demais */
+    }
+}
