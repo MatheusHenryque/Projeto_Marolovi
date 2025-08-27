@@ -37,7 +37,7 @@ def get_yolo_input(img):
 
 # --- Rotas ---
 @app.route("/")
-def index():
+def index():   
     return render_template("index.html")
 
 @app.route("/dashboard")
@@ -76,20 +76,28 @@ def predict():
             
             processed_img = preprocess_image(img)
 
-            # Predição Keras
+                      # Predição Keras
             keras_input = get_keras_input(processed_img)
-            keras_pred = keras_session.run(None, {keras_input_name: keras_input})[0]
-            
-            # Predição YOLO
+            # keras_pred agora será algo como [[0.95]] ou [[0.12]]
+            keras_pred_value = keras_session.run(None, {keras_input_name: keras_input})[0][0][0]
+
+            # --- LÓGICA CORRIGIDA PARA CLASSIFICAÇÃO BINÁRIA ---
+            threshold = 0.5
+            if keras_pred_value >= threshold:
+                predicted_class_keras = 1
+                confidence_keras = float(keras_pred_value)
+            else:
+                predicted_class_keras = 0
+                confidence_keras = 1.0 - float(keras_pred_value)
+
             yolo_input = get_yolo_input(processed_img)
             yolo_pred = yolo_session.run(None, {yolo_input_name: yolo_input})[0]
 
-            # Adiciona os resultados (sem miniatura) à lista
             all_results.append({
                 "filename": file.filename,
                 "keras": {
-                    "predicted_class": int(np.argmax(keras_pred)),
-                    "confidence": float(np.max(keras_pred))
+                    "predicted_class": predicted_class_keras,
+                    "confidence": confidence_keras
                 },
                 "yolo": {
                     "predicted_class": int(np.argmax(yolo_pred, axis=1)[0]),

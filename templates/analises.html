@@ -115,7 +115,7 @@
                         <tr>
                             <td><span class="model-name keras">Keras CNN</span></td>
                             <td>
-                                {% if result.keras.predicted_class == 0 %}
+                                {% if result.keras.predicted_class== 1 %}
                                     <span class="diagnosis-tag normal"><i class="bi bi-check-circle-fill"></i> Normal</span>
                                 {% else %}
                                     <span class="diagnosis-tag suspect"><i class="bi bi-exclamation-triangle-fill"></i> Suspeita de Ceratocone</span>
