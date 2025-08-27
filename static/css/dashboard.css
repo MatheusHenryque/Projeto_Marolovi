@@ -160,6 +160,7 @@
             position: relative;
             overflow: hidden;
             border-left: 3px solid transparent;
+            text-align: right;
         }
 
         .menu-item:hover {
