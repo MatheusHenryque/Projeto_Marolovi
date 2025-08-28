@@ -1,3 +1,7 @@
+/* ================================================= */
+/* ESTILOS PARA PÁGINA DE UPLOAD            */
+/* ================================================= */
+
 .main-content {
     padding: 2rem;
     background-color: #f8fafc;
@@ -6,390 +10,191 @@
 
 .medical-header {
     text-align: center;
-    margin-bottom: 2.5rem;
+    margin-bottom: 2rem;
     color: #2c3e50;
 }
 
 .medical-header h1 {
     font-weight: 600;
+    font-size: 1.8rem;
     letter-spacing: -0.5px;
 }
 
 .medical-header .lead {
     color: #7f8c8d;
-    font-weight: 300;
+    font-weight: 400;
+    font-size: 1rem;
+    margin-top: 0.5rem;
 }
 
+/* CARD DE UPLOAD PRINCIPAL */
 .upload-card {
     background: white;
     border-radius: 12px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-    margin-bottom: 3rem;
-    border-top: 4px solid #3498db;
+    box-shadow: 0 4px 25px rgba(0, 0, 0, 0.07);
+    margin: 0 auto 3rem auto;
+    max-width: 900px; /* Limita a largura máxima do card */
     overflow: hidden;
 }
 
 .upload-card-header {
-    padding: 1.5rem 2rem;
+    padding: 1.25rem 2rem;
     border-bottom: 1px solid #ecf0f1;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: #fdfdfd;
 }
 
 .upload-card-header h2 {
     color: #2c3e50;
-    font-size: 1.4rem;
-    display: flex;
-    align-items: center;
-    gap: 10px;
+    font-size: 1.2rem;
+    font-weight: 600;
 }
 
-.upload-card-header p {
-    color: #7f8c8d;
-    font-size: 0.9rem;
-    margin-top: 0.5rem;
-}
-
+/* ÁREA DE DRAG AND DROP */
 .medical-drop-zone {
     padding: 3rem 2rem;
     text-align: center;
     cursor: pointer;
-    transition: all 0.3s;
+    transition: background-color 0.3s;
     position: relative;
+    min-height: 350px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 .medical-drop-zone:hover {
-    background-color: #f8fafc;
+    background-color: #f9fbfd;
+}
+
+.medical-drop-zone.drag-over {
+    background-color: #e9f5fd;
 }
 
 .drop-zone-content {
     max-width: 500px;
     margin: 0 auto;
+    color: #7f8c8d;
 }
 
 .drop-zone-content i {
-    font-size: 3.5rem;
+    font-size: 3rem;
     color: #3498db;
     margin-bottom: 1rem;
 }
 
 .drop-zone-content h3 {
     color: #2c3e50;
+    font-size: 1.2rem;
     margin-bottom: 0.5rem;
 }
 
 .drop-zone-content p {
-    color: #7f8c8d;
+    font-size: 0.9rem;
 }
 
-#medicalFileInput {
+/* CONTAINER DAS MINIATURAS */
+.thumbnail-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+    padding: 1rem;
+    width: 100%;
+    /* Oculto por padrão, visível via JS */
+}
+
+/* Esconde o prompt inicial quando há arquivos */
+.medical-drop-zone.has-files .drop-zone-content {
     display: none;
 }
 
+/* MINIATURA INDIVIDUAL */
+.thumbnail-preview {
+    position: relative;
+    width: 140px;
+    height: 140px;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid #e0e0e0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    flex-shrink: 0;
+}
+
+.thumbnail-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* Mostra a imagem inteira sem cortar */
+}
+
+.thumbnail-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 5px;
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    font-size: 0.75rem;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* RODAPÉ DO CARD COM BOTÕES */
 .upload-card-footer {
-    padding: 1.5rem 2rem;
+    padding: 1rem 2rem;
     border-top: 1px solid #ecf0f1;
     display: flex;
     gap: 1rem;
     justify-content: flex-end;
+    background-color: #fdfdfd;
 }
 
-/* Estilos para a área de resultados */
-.results-section {
-    background: white;
-    border-radius: 12px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-    overflow: hidden;
-}
-
-.results-header {
-    padding: 1.5rem 2rem;
-    border-bottom: 1px solid #ecf0f1;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.results-header h2 {
-    color: #2c3e50;
-    font-size: 1.4rem;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.confidence-indicator {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    flex-direction: row;
-}
-
-.confidence-bar {
-    width: 150px;
-    height: 8px;
-    background: #ecf0f1;
-    border-radius: 4px;
-    overflow: hidden;
-}
-
-.confidence-level {
-    height: 100%;
-    width: 0%;
-    background: linear-gradient(90deg, #e74c3c, #f39c12, #2ecc71);
-    transition: width 0.5s ease;
-}
-
-.results-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2rem;
-    padding: 2rem;
-}
-
-.medical-image-viewer {
-    border: 1px solid #ecf0f1;
-    border-radius: 8px;
-    overflow: hidden;
-}
-
-.viewer-toolbar {
-    padding: 0.8rem;
-    background: #f8fafc;
-    border-bottom: 1px solid #ecf0f1;
-    display: flex;
-    gap: 0.8rem;
-}
-
-.tool-btn {
-    background: white;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    width: 32px;
-    height: 32px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    color: #7f8c8d;
-    transition: all 0.2s;
-}
-
-.tool-btn:hover {
-    background: #3498db;
-    color: white;
-    border-color: #3498db;
-}
-
-.image-container {
-    position: relative;
-    height: 500px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #000;
-}
-
-#medicalPreview {
-    max-width: 100%;
-    max-height: 100%;
-    display: none;
-}
-
-#annotationCanvas {
-    position: absolute;
-    top: 0;
-    left: 0;
-    pointer-events: none;
-}
-
-.diagnosis-panel {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-}
-
-.diagnosis-card {
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-    overflow: hidden;
-}
-
-.diagnosis-card h3 {
-    padding: 1rem 1.5rem;
-    background: #f8fafc;
-    border-bottom: 1px solid #ecf0f1;
-    color: #2c3e50;
-    font-size: 1.1rem;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.findings-list, .recommendations {
-    padding: 1.5rem;
-    min-height: 150px;
-}
-
-.no-results {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    color: #bdc3c7;
-    text-align: center;
-}
-
-.no-results i {
-    font-size: 2rem;
-    margin-bottom: 1rem;
-}
-
-.diagnosis-actions {
-    display: flex;
-    gap: 1rem;
-    margin-top: auto;
-}
-
-/* Botões médicos estilizados */
-.btn-medical-primary {
-    background: linear-gradient(135deg, #3498db, #2980b9);
-    color: white;
+/* BOTÕES ESTILIZADOS */
+.btn-medical-primary, .btn-medical-secondary {
     border: none;
-    padding: 0.8rem 1.5rem;
+    padding: 0.75rem 1.5rem;
     border-radius: 8px;
-    font-weight: 500;
+    font-weight: 600;
+    font-size: 0.9rem;
     display: flex;
     align-items: center;
     gap: 8px;
     cursor: pointer;
     transition: all 0.2s;
+}
+
+.btn-medical-primary {
+    background: #3498db;
+    color: white;
     box-shadow: 0 2px 10px rgba(52, 152, 219, 0.3);
 }
 
-.btn-medical-primary:hover {
-    background: linear-gradient(135deg, #2980b9, #3498db);
+.btn-medical-primary:hover:not(:disabled) {
+    background: #2980b9;
     transform: translateY(-1px);
     box-shadow: 0 4px 15px rgba(52, 152, 219, 0.4);
+}
+
+.btn-medical-primary:disabled {
+    background: #bdc3c7;
+    cursor: not-allowed;
+    box-shadow: none;
 }
 
 .btn-medical-secondary {
     background: white;
     color: #7f8c8d;
     border: 1px solid #ddd;
-    padding: 0.8rem 1.5rem;
-    border-radius: 8px;
-    font-weight: 500;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    cursor: pointer;
-    transition: all 0.2s;
 }
 
 .btn-medical-secondary:hover {
     background: #f8fafc;
     border-color: #ccc;
-}
-
-.btn-medical-report, .btn-medical-share {
-    flex: 1;
-    padding: 0.8rem;
-    border-radius: 8px;
-    font-weight: 500;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    cursor: pointer;
-    transition: all 0.2s;
-}
-
-.btn-medical-report {
-    background: linear-gradient(135deg, #e74c3c, #c0392b);
-    color: white;
-    border: none;
-    box-shadow: 0 2px 10px rgba(231, 76, 60, 0.3);
-}
-
-.btn-medical-report:hover {
-    background: linear-gradient(135deg, #c0392b, #e74c3c);
-    transform: translateY(-1px);
-    box-shadow: 0 4px 15px rgba(231, 76, 60, 0.4);
-}
-
-.btn-medical-share {
-    background: white;
-    color: #7f8c8d;
-    border: 1px solid #ddd;
-}
-
-.btn-medical-share:hover {
-    background: #f8fafc;
-    border-color: #ccc;
-}
-
-/* Efeito de drag and drop */
-.medical-drop-zone.drag-over {
-    background-color: #e3f2fd;
-    border-color: #3498db;
-}
-
-
-
-/* --- REGRAS PARA RESPONSIVIDADE EM CELULARES --- */
-@media (max-width: 768px) {
-    /* 1. Ajusta o layout principal (padrão) */
-
-
-    .main-content {
-        margin-left: 0;
-        padding: 1rem;
-    }
-
-    /* 2. Ajusta espaçamentos e fontes do cabeçalho e card */
-    .medical-header {
-        margin-bottom: 1.5rem;
-    }
-
-    .medical-header h1 {
-        font-size: 1.5rem;
-    }
-
-    .upload-card-header,
-    .upload-card-footer {
-        padding: 1rem 1.5rem;
-    }
-    
-    .upload-card-header h2 {
-        font-size: 1.2rem;
-    }
-
-    /* 3. Ajusta a área de upload (drop-zone) */
-    .medical-drop-zone {
-        padding: 1.5rem 1rem;
-        min-height: 200px; /* Reduz a altura mínima */
-    }
-
-    .drop-zone-content h3 {
-        font-size: 1.1rem;
-    }
-    .drop-zone-content i {
-        font-size: 2.5rem;
-    }
-    
-    .thumbnail-container {
-        padding: 0.5rem;
-        gap: 1rem;
-    }
-
-    /* 4. A MÁGICA: Empilha os botões de ação verticalmente */
-    .upload-card-footer {
-        flex-direction: column; /* Empilha os botões */
-        align-items: stretch;   /* Faz os botões ocuparem 100% da largura */
-    }
-
-    .btn-medical-primary, .btn-medical-secondary {
-        justify-content: center; /* Centraliza o texto e ícone no botão */
-    }
 }

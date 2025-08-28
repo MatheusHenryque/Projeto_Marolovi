@@ -235,3 +235,17 @@
         max-width: 150px; /* Evita que a barra de progresso cresça demais */
     }
 }
+
+/* Estilos para o card de imagem rejeitada */
+.rejected-card .card-header {
+    background-color: #fff3cd; /* Um amarelo claro de aviso */
+    color: #ad6200;
+}
+.result-icon-rejected {
+    color: #f50000; /* Laranja de aviso */
+}
+.rejected-info {
+    font-size: 0.9rem;
+    color: #6c757d;
+    margin-top: 1rem;
+}

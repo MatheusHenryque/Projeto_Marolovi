@@ -77,63 +77,78 @@
         </div>
 
         <!-- Loop para criar um card de resultado para cada imagem -->
-        {% for result in results %}
-        <div class="report-card result-item-card">
-            <div class="card-header result-item-header">
-                <!-- Ícone de imagem e nome do ficheiro -->
-                <i class="bi bi-image result-icon"></i>
-                <h2>Análise do Exame: {{ result.filename }}</h2>
-            </div>
-            <div class="card-content">
-                <table class="results-table">
-                    <thead>
-                        <tr>
-                            <th>Modelo de IA</th>
-                            <th>Diagnóstico Sugerido</th>
-                            <th>Nível de Confiança</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><span class="model-name yolo">YOLOv11</span></td>
-                            <td>
-                                {% if result.yolo.predicted_class == 1 %}
-                                    <span class="diagnosis-tag normal"><i class="bi bi-check-circle-fill"></i> Normal</span>
-                                {% else %}
-                                    <span class="diagnosis-tag suspect"><i class="bi bi-exclamation-triangle-fill"></i> Suspeita de Ceratocone</span>
-                                {% endif %}
-                            </td>
-                            <td>
-                                <div class="confidence-display">
-                                    <div class="progress-bar">
-                                        <div class="progress-fill" style="width: {{ result.yolo.confidence * 100 }}%;"></div>
+       {% for result in results %}
+    
+            {% if result.status == 'analisada' %}
+            <div class="report-card result-item-card">
+                <div class="card-header result-item-header">
+                    <i class="bi bi-image result-icon"></i>
+                    <h2>Análise do Exame: {{ result.filename }}</h2>
+                </div>
+                <div class="card-content">
+                    <table class="results-table">
+                        <thead>
+                            <tr>
+                                <th>Modelo de IA</th>
+                                <th>Diagnóstico Sugerido</th>
+                                <th>Nível de Confiança</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><span class="model-name yolo">YOLOv11</span></td>
+                                <td>
+                                    {% if result.yolo.predicted_class == 1 %}
+                                        <span class="diagnosis-tag normal"><i class="bi bi-check-circle-fill"></i> Normal</span>
+                                    {% else %}
+                                        <span class="diagnosis-tag suspect"><i class="bi bi-exclamation-triangle-fill"></i> Suspeita de Ceratocone</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <div class="confidence-display">
+                                        <div class="progress-bar">
+                                            <div class="progress-fill" style="width: {{ result.yolo.confidence * 100 }}%;"></div>
+                                        </div>
+                                        <span class="confidence-value">{{ "%.1f"|format(result.yolo.confidence * 100) }}%</span>
                                     </div>
-                                    <span class="confidence-value">{{ "%.1f"|format(result.yolo.confidence * 100) }}%</span>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><span class="model-name keras">Keras CNN</span></td>
-                            <td>
-                                {% if result.keras.predicted_class== 1 %}
-                                    <span class="diagnosis-tag normal"><i class="bi bi-check-circle-fill"></i> Normal</span>
-                                {% else %}
-                                    <span class="diagnosis-tag suspect"><i class="bi bi-exclamation-triangle-fill"></i> Suspeita de Ceratocone</span>
-                                {% endif %}
-                            </td>
-                            <td>
-                                <div class="confidence-display">
-                                    <div class="progress-bar">
-                                        <div class="progress-fill" style="width: {{ result.keras.confidence * 100 }}%;"></div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><span class="model-name keras">Keras CNN</span></td>
+                                <td>
+                                    {% if result.keras.predicted_class == 1 %}
+                                        <span class="diagnosis-tag normal"><i class="bi bi-check-circle-fill"></i> Normal</span>
+                                    {% else %}
+                                        <span class="diagnosis-tag suspect"><i class="bi bi-exclamation-triangle-fill"></i> Suspeita de Ceratocone</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <div class="confidence-display">
+                                        <div class="progress-bar">
+                                            <div class="progress-fill" style="width: {{ result.keras.confidence * 100 }}%;"></div>
+                                        </div>
+                                        <span class="confidence-value">{{ "%.1f"|format(result.keras.confidence * 100) }}%</span>
                                     </div>
-                                    <span class="confidence-value">{{ "%.1f"|format(result.keras.confidence * 100) }}%</span>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
-        </div>
+
+            {% elif result.status == 'rejeitada' %}
+            <div class="report-card result-item-card rejected-card">
+                <div class="card-header result-item-header">
+                    <i class="bi bi-exclamation-octagon-fill result-icon-rejected"></i>
+                    <h2>Análise Recusada: {{ result.filename }}</h2>
+                </div>
+                <div class="card-content">
+                    <p><strong>Motivo:</strong> {{ result.reason }}</p>
+                    <p class="rejected-info">Esta imagem foi ignorada e não passou pelas análises de diagnóstico de ceratocone.</p>
+                </div>
+            </div>
+            {% endif %}
+
         {% endfor %}
         
         <div class="disclaimer">

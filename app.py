@@ -15,8 +15,10 @@ IMG_SIZE = (224, 224)
 providers = ['CPUExecutionProvider']
 keras_session = ort.InferenceSession("Models/Modelo_Keras.onnx", providers=providers)
 yolo_session = ort.InferenceSession("Models/Modelo_Yolov11.onnx", providers=providers)
+topo_classifier_session = ort.InferenceSession("Models/Modelo_Topografia_Classifier.onnx", providers=providers)
 keras_input_name = keras_session.get_inputs()[0].name
 yolo_input_name = yolo_session.get_inputs()[0].name
+topo_classifier_input_name = topo_classifier_session.get_inputs()[0].name
 
 # --- Funções de Pré-processamento de Imagem ---
 def preprocess_image(img, target_size=IMG_SIZE):
@@ -61,6 +63,7 @@ def oftsys():
     return redirect(url_for('cadastro_paciente'))
 
 @app.route("/predict", methods=["POST"])
+@app.route("/predict", methods=["POST"])
 def predict():
     files = request.files.getlist("files[]")
     
@@ -76,12 +79,22 @@ def predict():
             
             processed_img = preprocess_image(img)
 
-                      # Predição Keras
+            topo_input = get_keras_input(processed_img)
+            topo_pred_value = topo_classifier_session.run(None, {topo_classifier_input_name: topo_input})[0][0][0]
+            topo_threshold = 0.5 
+
+            if topo_pred_value < topo_threshold:
+                all_results.append({
+                    "filename": file.filename,
+                    "status": "rejeitada",
+                    "reason": "A imagem não foi identificada como uma topografia de córnea."
+                })
+                continue 
+
+            # Predição Keras (Ceratocone)
             keras_input = get_keras_input(processed_img)
-            # keras_pred agora será algo como [[0.95]] ou [[0.12]]
             keras_pred_value = keras_session.run(None, {keras_input_name: keras_input})[0][0][0]
 
-            # --- LÓGICA CORRIGIDA PARA CLASSIFICAÇÃO BINÁRIA ---
             threshold = 0.5
             if keras_pred_value >= threshold:
                 predicted_class_keras = 1
@@ -90,11 +103,14 @@ def predict():
                 predicted_class_keras = 0
                 confidence_keras = 1.0 - float(keras_pred_value) 
 
+            # Predição YOLO (Ceratocone)
             yolo_input = get_yolo_input(processed_img)
             yolo_pred = yolo_session.run(None, {yolo_input_name: yolo_input})[0]
 
+            # Adiciona o resultado da análise à lista
             all_results.append({
                 "filename": file.filename,
+                "status": "analisada", # Novo status para indicar sucesso 
                 "keras": {
                     "predicted_class": predicted_class_keras,
                     "confidence": confidence_keras
