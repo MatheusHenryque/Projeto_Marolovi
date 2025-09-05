@@ -151,12 +151,163 @@
 
         {% endfor %}
         
-        <div class="disclaimer">
+        <div class="disclaimer" style="margin-bottom: 12vh;">
             <i class="bi bi-info-circle-fill"></i>
             <strong>Atenção:</strong> Este é um resultado preliminar e não substitui a avaliação e o diagnóstico de um profissional médico qualificado.
         </div>
+
+            <!-- Menu mobile -->
+        <div class="mobile-sidebar">
+            <a href="/dashboard" class="mobile-menu-item ">
+                <i class="mobile-icon bi bi-speedometer2"></i>
+                <span class="mobile-text">Dashboard</span>
+            </a>
+            <a href="/analises" class="mobile-menu-item active">
+                <i class="mobile-icon bi bi-graph-up"></i>
+                <span class="mobile-text">Análises</span>
+            </a>
+            <div class="mobile-menu-toggle">
+                <i class="bi bi-plus"></i>
+            </div>
+            <a href="/oftsys-cadastro-paciente" class="mobile-menu-item">
+                <i class="mobile-icon bi bi-robot"></i>
+                <span class="mobile-text">IA</span>
+            </a>
+            <a href="#" class="mobile-menu-item">
+                <i class="mobile-icon bi bi-file-text"></i>
+                <span class="mobile-text">Artigo</span>
+            </a>
+        </div>
+
+        <div class="mobile-menu-expanded">
+            <div class="mobile-user-profile">
+                <div class="mobile-user-avatar">O</div>
+                <div class="mobile-user-info">
+                    <h4>OFTSYS</h4>
+                </div>
+            </div>
+            
+            <div class="mobile-menu-section">
+                <div class="mobile-section-title">Menu Principal</div>
+                <a href="/dashboard" class="mobile-expanded-item active">
+                    <i class="mobile-expanded-icon bi bi-speedometer2"></i>
+                    <span class="mobile-expanded-text">Dashboard</span>
+                </a>
+                <a href="/analises" class="mobile-expanded-item">
+                    <i class="mobile-expanded-icon bi bi-graph-up"></i>
+                    <span class="mobile-expanded-text">Análises</span>
+                </a>
+            </div>
+            
+            <div class="mobile-menu-section">
+                <div class="mobile-section-title">Ferramentas</div>
+                <a href="/oftsys-cadastro-paciente" class="mobile-expanded-item">
+                    <i class="mobile-expanded-icon bi bi-robot"></i>
+                    <span class="mobile-expanded-text">IA Diagnóstica</span>
+                </a>
+                <a href="#" class="mobile-expanded-item">
+                    <i class="mobile-expanded-icon bi bi-file-text"></i>
+                    <span class="mobile-expanded-text">O Artigo</span>
+                </a>
+            </div>
+
+            <div class="mobile-menu-section">
+                <div class="mobile-section-title">Configurações</div>
+                <a href="/" class="mobile-expanded-item">
+                    <i class="mobile-expanded-icon bi bi-box-arrow-right"></i>
+                    <span class="mobile-expanded-text">Sair</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Chatbot -->
+        <button id="chat-button">
+            <i class="bi bi-robot"></i>
+        </button>
+
+        <div id="chat-container">
+            <div id="chat-header">
+                <div class="chat-title">
+                    <i class="bi bi-robot"></i>
+                    <span>OFTBOT</span>
+                </div>
+                <div class="chat-actions">
+                    <button class="chat-action-btn" id="close-chat">
+                        <i class="bi bi-x"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div id="chat-messages">
+                <div class="message bot">
+                    <div class="message-content">
+                        <p>
+                            Olá, eu sou o seu assistente especializado em ceratocone e estou
+                            pronto para tirar suas dúvidas!
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="chat-input-container">
+                <input
+                    type="text"
+                    id="chat-input"
+                    placeholder="Digite sua mensagem..."
+                />
+                <button id="send-button">
+                    <i class="bi bi-send"></i>
+                </button>
+            </div>
+        </div>
+     
     </main>
+
+        <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+            const mobileMenuExpanded = document.querySelector('.mobile-menu-expanded');
+            
+            if (mobileMenuToggle && mobileMenuExpanded) {
+                mobileMenuToggle.addEventListener('click', function() {
+                    this.classList.toggle('open');
+                    mobileMenuExpanded.classList.toggle('open');
+                });
+            }
+            const toggleBtn = document.querySelector('.toggle-btn');
+            const verticalSidebar = document.querySelector('.vertical-sidebar');
+            
+            if (toggleBtn && verticalSidebar) {
+                toggleBtn.addEventListener('click', function() {
+                    verticalSidebar.classList.toggle('collapsed');
+                });
+            }
+            const mobileMenuItems = document.querySelectorAll('.mobile-expanded-item');
+            mobileMenuItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    mobileMenuExpanded.classList.remove('open');
+                    mobileMenuToggle.classList.remove('open');
+                });
+            });
+            
+            const chatButton = document.getElementById('chat-button');
+            const chatContainer = document.getElementById('chat-container');
+            const closeChat = document.getElementById('close-chat');
+            
+            if (chatButton && chatContainer) {
+                chatButton.addEventListener('click', function() {
+                    chatContainer.style.display = chatContainer.style.display === 'flex' ? 'none' : 'flex';
+                });
+            }
+            
+            if (closeChat && chatContainer) {
+                closeChat.addEventListener('click', function() {
+                    chatContainer.style.display = 'none';
+                });
+            }
+        });
+    </script>
+
 </body>
-  <script src="static/src/sidebar.js"></script>
-  <script src="static/src/chatbot.js"></script>
+
 </html>

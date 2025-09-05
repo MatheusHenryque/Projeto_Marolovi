@@ -60,54 +60,204 @@
         </div>
     </aside>
     <div class="main-content">
-    <div class="medical-header">
-        <h1 class="display-4"><i class="fas fa-microscope"></i> Análise Médica Avançada</h1>
-        <p class="lead">Sistema de diagnóstico por imagem assistido por IA</p>
-    </div>
+        <div class="medical-header">
+            <h1 class="display-4"><i class="fas fa-microscope"></i> Análise Médica Avançada</h1>
+            <p class="lead">Sistema de diagnóstico por imagem assistido por IA</p>
+        </div>
 
 
-    <div class="form-card">
-        <div class="upload-card-header">
-            <h2><i class="fas fa-cloud-upload-alt"></i> Informações do Paciente</h2>
+        <div class="form-card">
+            <div class="upload-card-header">
+                <h2><i class="fas fa-cloud-upload-alt"></i> Informações do Paciente</h2>
+            </div>
+            
+                <div class="form-area">
+                    <form class="form-patient-registration" action="/oftsys" method="post" enctype="multipart/form-data" >
+                        <div class="field">
+                            <label for="nome" class="required">Nome</label>
+                            <input id="nome" name="nome" type="text" required minlength="2" maxlength="80"/>
+                        </div>
+                        <div class="field">
+                            <label for="nascimento" >Data de nascimento</label>
+                            <input id="nascimento" name="nascimento" type="date" required />
+                        </div>
+                        <fieldset class="field">
+                            <legend class="required">Sexo</legend>
+                            <div class="inline">
+                                <label class="gender"><input type="radio" name="sexo" value="feminino" required /> Feminino</label>
+                                <label class="gender"><input type="radio" name="sexo" value="masculino" /> Masculino</label>
+                                <label class="gender"><input type="radio" name="sexo" value="outro" /> Outro</label>
+                            </div>
+                        </fieldset>
+                        <div class="field">
+                            <label for="prontuario" required>Número de prontuário</label>
+                            <input id="prontuario" name="prontuario" type="number" required/>
+                        </div>
+
+                        <div class="upload-card-footer">
+                            <button type="submit" class="btn-medical-primary" >
+                                <i class="fas fa-search-plus"></i>CONTINUAR
+                            </button>
+                        </div>
+                    </form>
+                </div>
         </div>
         
-        <div class="form-area">
-            <form class="form-patient-registration" action="/oftsys" method="post" enctype="multipart/form-data" >
-                <div class="field">
-                    <label for="nome" class="required">Nome</label>
-                    <input id="nome" name="nome" type="text" required minlength="2" maxlength="80"/>
-                </div>
-                <div class="field">
-                    <label for="nascimento" >Data de nascimento</label>
-                    <input id="nascimento" name="nascimento" type="date" required />
-                </div>
-                <fieldset class="field">
-                    <legend class="required">Sexo</legend>
-                    <div class="inline">
-                        <label class="gender"><input type="radio" name="sexo" value="feminino" required /> Feminino</label>
-                        <label class="gender"><input type="radio" name="sexo" value="masculino" /> Masculino</label>
-                        <label class="gender"><input type="radio" name="sexo" value="outro" /> Outro</label>
-                    </div>
-                </fieldset>
-                <div class="field">
-                    <label for="prontuario" required>Número de prontuário</label>
-                    <input id="prontuario" name="prontuario" type="number" required/>
-                </div>
+    </div>
 
-                <div class="upload-card-footer">
-                    <button type="submit" class="btn-medical-primary" >
-                        <i class="fas fa-search-plus"></i>CONTINUAR
-                    </button>
-                </div>
-            </form>
+
+    <!-- Menu mobile -->
+    <div class="mobile-sidebar">
+        <a href="/dashboard" class="mobile-menu-item">
+            <i class="mobile-icon bi bi-speedometer2"></i>
+            <span class="mobile-text">Dashboard</span>
+        </a>
+        <a href="/analises" class="mobile-menu-item">
+            <i class="mobile-icon bi bi-graph-up"></i>
+            <span class="mobile-text">Análises</span>
+        </a>
+        <div class="mobile-menu-toggle">
+            <i class="bi bi-plus"></i>
+        </div>
+        <a href="/oftsys-cadastro-paciente" class="mobile-menu-item active">
+            <i class="mobile-icon bi bi-robot"></i>
+            <span class="mobile-text">IA</span>
+        </a>
+        <a href="#" class="mobile-menu-item">
+            <i class="mobile-icon bi bi-file-text"></i>
+            <span class="mobile-text">Artigo</span>
+        </a>
+    </div>
+
+    <div class="mobile-menu-expanded">
+        <div class="mobile-user-profile">
+            <div class="mobile-user-avatar">O</div>
+            <div class="mobile-user-info">
+                <h4>OFTSYS</h4>
+            </div>
+        </div>
+        
+        <div class="mobile-menu-section">
+            <div class="mobile-section-title">Menu Principal</div>
+            <a href="/dashboard" class="mobile-expanded-item active">
+                <i class="mobile-expanded-icon bi bi-speedometer2"></i>
+                <span class="mobile-expanded-text">Dashboard</span>
+            </a>
+            <a href="/analises" class="mobile-expanded-item">
+                <i class="mobile-expanded-icon bi bi-graph-up"></i>
+                <span class="mobile-expanded-text">Análises</span>
+            </a>
+        </div>
+        
+        <div class="mobile-menu-section">
+            <div class="mobile-section-title">Ferramentas</div>
+            <a href="/oftsys-cadastro-paciente" class="mobile-expanded-item">
+                <i class="mobile-expanded-icon bi bi-robot"></i>
+                <span class="mobile-expanded-text">IA Diagnóstica</span>
+            </a>
+            <a href="#" class="mobile-expanded-item">
+                <i class="mobile-expanded-icon bi bi-file-text"></i>
+                <span class="mobile-expanded-text">O Artigo</span>
+            </a>
+        </div>
+
+        <div class="mobile-menu-section">
+            <div class="mobile-section-title">Configurações</div>
+            <a href="/" class="mobile-expanded-item">
+                <i class="mobile-expanded-icon bi bi-box-arrow-right"></i>
+                <span class="mobile-expanded-text">Sair</span>
+            </a>
         </div>
     </div>
-        
+
+    <!-- Chatbot -->
+    <button id="chat-button">
+        <i class="bi bi-robot"></i>
+    </button>
+
+    <div id="chat-container">
+        <div id="chat-header">
+            <div class="chat-title">
+                <i class="bi bi-robot"></i>
+                <span>OFTBOT</span>
+            </div>
+            <div class="chat-actions">
+                <button class="chat-action-btn" id="close-chat">
+                    <i class="bi bi-x"></i>
+                </button>
+            </div>
+        </div>
+
+        <div id="chat-messages">
+            <div class="message bot">
+                <div class="message-content">
+                    <p>
+                        Olá, eu sou o seu assistente especializado em ceratocone e estou
+                        pronto para tirar suas dúvidas!
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div id="chat-input-container">
+            <input
+                type="text"
+                id="chat-input"
+                placeholder="Digite sua mensagem..."
+            />
+            <button id="send-button">
+                <i class="bi bi-send"></i>
+            </button>
+        </div>
     </div>
-</div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+            const mobileMenuExpanded = document.querySelector('.mobile-menu-expanded');
+            
+            if (mobileMenuToggle && mobileMenuExpanded) {
+                mobileMenuToggle.addEventListener('click', function() {
+                    this.classList.toggle('open');
+                    mobileMenuExpanded.classList.toggle('open');
+                });
+            }
+            const toggleBtn = document.querySelector('.toggle-btn');
+            const verticalSidebar = document.querySelector('.vertical-sidebar');
+            
+            if (toggleBtn && verticalSidebar) {
+                toggleBtn.addEventListener('click', function() {
+                    verticalSidebar.classList.toggle('collapsed');
+                });
+            }
+            const mobileMenuItems = document.querySelectorAll('.mobile-expanded-item');
+            mobileMenuItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    mobileMenuExpanded.classList.remove('open');
+                    mobileMenuToggle.classList.remove('open');
+                });
+            });
+            
+            const chatButton = document.getElementById('chat-button');
+            const chatContainer = document.getElementById('chat-container');
+            const closeChat = document.getElementById('close-chat');
+            
+            if (chatButton && chatContainer) {
+                chatButton.addEventListener('click', function() {
+                    chatContainer.style.display = chatContainer.style.display === 'flex' ? 'none' : 'flex';
+                });
+            }
+            
+            if (closeChat && chatContainer) {
+                closeChat.addEventListener('click', function() {
+                    chatContainer.style.display = 'none';
+                });
+            }
+        });
+    </script>
+
     
     
 </body>
-<script src="static/src/sidebar.js"></script>
-<script src="{{ url_for('static', filename='src/script.js') }}"></script>
+
 </html>
