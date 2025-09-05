@@ -257,7 +257,7 @@ main {
 }
 
 .hero-overlay {
-  position: relative;
+  position:static;
   width: 100%;
   height: 100vh;
   overflow: hidden;
