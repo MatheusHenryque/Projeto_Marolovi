@@ -110,7 +110,7 @@ def predict():
             # Adiciona o resultado da análise à lista
             all_results.append({
                 "filename": file.filename,
-                "status": "analisada", # Novo status para indicar sucesso   
+                "status": "analisada", # Novo status para indicar sucesso    
                 "keras": {
                     "predicted_class": predicted_class_keras,
                     "confidence": confidence_keras

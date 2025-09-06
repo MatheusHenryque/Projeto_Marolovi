@@ -66,34 +66,60 @@ a {
   text-align: center;
 }
 
-
-/* --- REGRAS PARA RESPONSIVIDADE EM CELULARES --- */
-@media (max-width: 768px) {
-    /* 1. Ajusta o layout principal (igual ao anterior) */
-
-    .main-content {
-        margin-left: 0;
-        padding: 1rem;
-    }
-
-    /* 2. Transforma o grid do formulário para uma única coluna */
-    .form-patient-registration {
-        grid-template-columns: 1fr; /* Mágica acontece aqui! */
-        gap: 1.5rem;
-    }
-
-    /* 3. Ajusta o espaçamento do card do formulário */
-    .form-area {
-        padding: 2rem 1rem; /* Reduz o padding para telas menores */
-    }
-
-    /* 4. Permite que os botões de sexo quebrem a linha se necessário */
-    .inline {
-        flex-wrap: wrap;
-    }
-
-    /* 5. Ajusta o tamanho do título */
-    .medical-header h1 {
-        font-size: 1.5rem;
-    }
+.upload-card-footer {
+  grid-column: span 2; /* Garante que o botão ocupe as duas colunas em telas maiores */
+  margin-top: 1rem; /* Adiciona um espaço acima do botão */
 }
+
+@media (max-width: 768px) {
+  .main-content {
+    margin-left: 0;
+    padding: 1rem;
+    /* REMOVIDO: 'max-width: 300px;' 
+      Isso limitava o conteúdo a uma largura muito pequena em tablets e celulares maiores.
+      Agora o conteúdo ocupará o espaço disponível, respeitando o padding.
+    */
+  }
+
+  .form-patient-registration {
+    grid-template-columns: 1fr; /* Muda o grid para uma única coluna */
+    gap: 1.25rem; /* Ajuste no espaçamento para telas menores */
+  }
+  
+  /* Adicionado: Garante que os elementos de largura total se ajustem ao grid de 1 coluna */
+  .consent-field,
+  .upload-card-footer {
+    grid-column: auto; /* Reseta a expansão de coluna no layout mobile */
+  }
+
+  .form-area {
+    padding: 2rem 1.5rem; /* Leve ajuste no padding para melhor visualização */
+  }
+
+  .inline {
+    flex-wrap: wrap; /* Mantido, é uma boa prática */
+  }
+
+  .medical-header h1 {
+    font-size: 1.6rem; /* Ajuste fino no tamanho da fonte */
+  }
+  
+  /* Adicionado: Ajuste no parágrafo do cabeçalho */
+  .medical-header .lead {
+    font-size: 0.95rem;
+  }
+
+  .consent-field {
+    font-size: 0.85rem;
+    line-height: 1.4;
+  }
+
+  /* Adicionado: Responsividade para o Chatbot */
+  #chat-container {
+    width: 90%;
+    max-width: 320px; /* Limita a largura máxima em telas maiores */
+    bottom: 15px;
+    right: 15px;
+  }
+}
+
