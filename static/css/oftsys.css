@@ -148,7 +148,6 @@
 
 /* RODAPÉ DO CARD COM BOTÕES */
 .upload-card-footer {
-    padding: 1rem 2rem;
     border-top: 1px solid #ecf0f1;
     display: flex;
     gap: 1rem;
