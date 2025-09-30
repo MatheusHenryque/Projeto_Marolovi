@@ -50,6 +50,10 @@ def dashboard():
 def cadastro_paciente():
     return render_template("oftsys-cadastro-paciente.html")
 
+@app.route("/artigo")
+def artigo():
+    return render_template("artigo.html")
+
 @app.route("/oftsys", methods=["GET", "POST"])
 def oftsys():
     if request.method == "POST":
