@@ -681,7 +681,7 @@
             width: 320px;
             max-width: calc(100% - 40px);
             height: 450px;
-            max-height: 70vh;
+            max-height: 80%;
             background-color: white;
             border-radius: 10px;
             box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15);
@@ -859,6 +859,7 @@
 
             #chat-container {
                 bottom: 90px;
+                max-height: 450px;
             }
         }
 
@@ -885,7 +886,8 @@
             #chat-container {
                 right: 0;
                 bottom: var(--mobile-sidebar-height);
-                width: 100%;
+                width: 90%;
+                height: 80%;
                 height: calc(100vh - var(--mobile-sidebar-height));
                 max-height: none;
                 border-radius: 16px 16px 0 0;
@@ -930,6 +932,7 @@
 
         @media (max-width: 576px) {
             #chat-container {
+                height: 70%;
                 padding-bottom: env(safe-area-inset-bottom);
             }
         }

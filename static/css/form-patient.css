@@ -116,8 +116,9 @@ a {
 
   /* Adicionado: Responsividade para o Chatbot */
   #chat-container {
-    width: 90%;
+    width: 80%;
     max-width: 320px; /* Limita a largura máxima em telas maiores */
+    max-height: 80vh;
     bottom: 15px;
     right: 15px;
   }
