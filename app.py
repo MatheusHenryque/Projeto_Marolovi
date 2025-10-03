@@ -67,7 +67,6 @@ def oftsys():
     return redirect(url_for('cadastro_paciente'))
 
 @app.route("/predict", methods=["POST"])
-@app.route("/predict", methods=["POST"])
 def predict():
     files = request.files.getlist("files[]")
     
@@ -158,6 +157,22 @@ def como_funciona():
 def recursos():
     return render_template("recursos.html")
 
+@app.route("/chat", methods=["POST"])  
+def chat():
+
+    data = request.get_json()
+
+    if not data or 'mensagem' not in data:
+        return jsonify({"error": "Nenhuma mensagem recebida."}), 400
+        
+    if data['mensagem'].lower() == "colirios" or data['mensagem'].lower() == "quais colírios vocês recomendam?" or data['mensagem'].lower() == "quais colírios vocês recomendam":
+        return jsonify({"resposta": "colírios lubrificantes: Lacrifilm, Systane, Optive, Blink, Refresh"})   
+    
+    user_message = data['mensagem']
+
+    bot_response = f"OFTBOT não reconhece: '{user_message}'"
+
+    return jsonify({"resposta": bot_response})
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0',debug=True, port=int(os.getenv("PORT", 5000)))
