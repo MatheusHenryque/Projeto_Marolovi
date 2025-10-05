@@ -887,8 +887,8 @@
                 right: 0;
                 bottom: var(--mobile-sidebar-height);
                 width: 100%;
+                max-height: 75%;
                 height: calc(100vh - var(--mobile-sidebar-height));
-                max-height: none;
                 border-radius: 16px 16px 0 0;
                 box-shadow: 0 -3px 15px rgba(0, 0, 0, 0.1);
             }
