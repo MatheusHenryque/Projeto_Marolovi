@@ -31,9 +31,9 @@
 .upload-card {
     background: white;
     border-radius: 12px;
-    box-shadow: 0 4px 25px rgba(0, 0, 0, 0.07);
+    box-shadow: rgb(186, 196, 199) 0px 50px 100px -20px, rgba(84, 116, 185, 0.715) 0px 30px 60px -30px;
     margin: 0 auto 3rem auto;
-    max-width: 900px; /* Limita a largura máxima do card */
+    max-width: 900px;
     overflow: hidden;
 }
 

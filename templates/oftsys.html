@@ -17,9 +17,9 @@
                 <i class="bi bi-list"></i>
             </button>
             <div class="user-profile">
-                <div class="user-avatar">M</div>
+                <div class="user-avatar">O</div>
                 <div class="user-info">
-                    <div class="user-name">Marolovi Tech</div>
+                    <div class="user-name">OFTSYS</div>
                 </div>
             </div>
         </div>
@@ -42,10 +42,6 @@
                     <i class="bi bi-robot item-icon"></i>
                     <span class="item-text">IA Diagnóstica</span>
                 </a>
-                <a href="#" class="menu-item" data-tooltip="Relatórios">
-                    <i class="bi bi-file-text item-icon"></i>
-                    <span class="item-text">O Artigo</span>
-                </a>
             </div>
             <div class="menu-section">
                 <div class="section-title">Configurações</div>
@@ -62,24 +58,24 @@
             <h1 class="display-4"><i class="fas fa-microscope"></i> Análise Médica Avançada</h1>
             <p class="lead">Passo 2 de 2: Envio do Exame de Imagem</p>
         </div>
-
+        
         <div class="upload-card">
+            <div style="width: 60%;height:30px;background-color: #7fbfcd; float: right;"></div>
             <div class="upload-card-header">
                 <h2><i class="fas fa-cloud-upload-alt"></i> Carregar Exames de Imagem</h2>
             </div>
             
             <div class="medical-drop-zone" id="dropZone">
-                <!-- O conteúdo original da drop-zone será escondido quando houver imagens -->
                 <div class="drop-zone-content" id="dropZonePrompt">
                     <i class="fas fa-x-ray"></i>
                     <h3>Arraste os exames de imagem aqui</h3>
                     <p>Ou clique para selecionar do computador</p>
                 </div>
-                <!-- Container para as miniaturas das imagens -->
                 <div id="thumbnailContainer" class="thumbnail-container"></div>
                 <!-- Input de arquivo agora aceita múltiplos arquivos -->
                 <input type="file" id="medicalFileInput" accept="image/*" style="display: none;" multiple>
             </div>
+            
             
             <div class="upload-card-footer">
                 <button id="analyzeBtn" class="btn-medical-primary" disabled>
@@ -89,7 +85,9 @@
                     <i class="fas fa-trash-alt"></i> LIMPAR
                 </button>
             </div>
+            
         </div>
+        
     </div>
 
     <!-- Menu mobile -->
@@ -243,4 +241,5 @@
     </script>   
     <script src="{{ url_for('static', filename='src/oftsys.js') }}"></script>
 </body>
+<script src="static/src/sidebar.js"></script>
 </html>
