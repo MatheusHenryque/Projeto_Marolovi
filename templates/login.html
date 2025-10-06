@@ -1,17 +1,15 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-  <head>
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="static/css/dashboard.css">
-    <script src="../static/src/chatbot.js"></script>
-    <title>oftsys - Dashboard</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>OFTSYS - Login</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"/>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}" />
+    <script src="static/src/sidebar.js"></script>
 
-
-</head>
+    </head>
 <body>
     <div class="app-container">
         <aside class="vertical-sidebar">
@@ -39,7 +37,7 @@
                     <i class="bi bi-speedometer2 item-icon"></i>
                     <span class="item-text">Dashboard</span>
                     </a>
-                    <a href="/login" class="menu-item" data-tooltip="Análises">
+                    <a href="/analises" class="menu-item" data-tooltip="Análises">
                     <i class="bi bi-graph-up item-icon"></i>
                     <span class="item-text">Análises</span>
                     </a>
@@ -48,7 +46,7 @@
                 <div class="menu-section">
                     <div class="section-title">Ferramentas</div>
                     <a
-                    href="/login"
+                    href="/oftsys-cadastro-paciente"
                     class="menu-item"
                     data-tooltip="IA Diagnóstica"
                     >
@@ -68,87 +66,40 @@
         </aside>
 
         <main class="main-content">
-            <header class="dashboard-header">
-                <div class="page-title">
-                    <h1>Bem-vindo(a)</h1>
-                    <p>Dashboard de análises médicas assistidas por IA</p>
+            <div class="login-wrapper">
+                <div class="login-logo">
+                    <div class="user-avatar">O</div>
                 </div>
-            </header>
+                <h1>Acesso ao Sistema</h1>
+                <p>Por favor, insira suas credenciais</p>
 
-            <div class="dashboard-row">
-                <section class="demo-section">
-                    <div class="section-header">
-                        <h2><i class="bi bi-play-circle"></i> Demonstração</h2>
+                <form class="login-form" id="loginForm" onsubmit="return false;">
+                    <div class="form-group">
+                        <label for="crm">CRM</label>
+                        <input type="text" id="crm" name="crm" placeholder="Digite seu CRM" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Senha</label>
+                        <input type="password" id="password" name="password" placeholder="Digite sua senha" required>
                     </div>
 
-                    <div class="video-container">
-                        <div class="video-placeholder">
-                            <i class="bi bi-play-btn"></i>
-                            <p>Vídeo demonstrativo</p>
-                        </div>
-                        <iframe
-                            src="static\img\video04.mp4"
-                            frameborder="0"
-                            allowfullscreen
-                        ></iframe>
+                    <div class="form-buttons">
+                        <button type="submit" class="btn btn-login">Login</button>
+                        <button type="reset" class="btn btn-clear">Limpar</button>
+                        <button type="button" class="btn btn-clear" id="forgotPasswordBtn">Esqueci minha senha</button>
                     </div>
-                </section>
-
-                <div class="dashboard-col">
-                    <div class="features-grid">
-                        <div class="feature-card">
-                            <a href="/login" style="text-decoration: none">
-                                <div class="card-icon">
-                                    <i class="bi bi-robot"></i>
-                                </div>
-                                <h3>IA Diagnóstica</h3>
-                                <p>Envie imagens de exames para análise pela nossa IA.</p>
-                                <a href="/login" class="card-link">
-                                    Enviar <i class="bi bi-arrow-right"></i>
-                                </a>
-                            </a>
-                        </div>
-
-                        <div class="feature-card">
-                            <a href="/login" style="text-decoration: none">
-                                <div class="card-icon" style="background-color: var(--accent-color)">
-                                    <i class="bi bi-graph-up"></i>
-                                </div>
-                                <h3>Análises</h3>
-                                <p>Visualize resultados dos últimos exames processados.</p>
-                                <a href="/login" class="card-link">
-                                    Ver <i class="bi bi-arrow-right"></i>
-                                </a>
-                            </a>
-                        </div>
-
-                        <div class="feature-card">
-                            <a href="dashboard" style="text-decoration: none">
-                                <div class="card-icon" style="background-color: var(--success-color)">
-                                    <i class="bi bi-file-text-fill"></i>
-                                </div>
-                                <h3>O Artigo</h3>
-                                <p>
-                                    Acesse o nosso artigo e entenda a importância desse trabalho
-                                </p>
-                                <a href="#" class="card-link">
-                                    Gerenciar <i class="bi bi-arrow-right"></i>
-                                </a>
-                            </a>
-                        </div>
-                    </div>
-                </div>
+                </form>
             </div>
         </main>
     </div>
 
-    <!-- Menu mobile -->
+ <!-- Menu mobile -->
     <div class="mobile-sidebar">
         <a href="/dashboard" class="mobile-menu-item active">
             <i class="mobile-icon bi bi-speedometer2"></i>
             <span class="mobile-text">Dashboard</span>
         </a>
-        <a href="/login" class="mobile-menu-item">
+        <a href="/analises" class="mobile-menu-item">
             <i class="mobile-icon bi bi-graph-up"></i>
             <span class="mobile-text">Análises</span>
         </a>
@@ -157,7 +108,7 @@
                     <i class="bi bi-house"></i>
                 </div>
         </a>
-        <a href="/login" class="mobile-menu-item">
+        <a href="/oftsys-cadastro-paciente" class="mobile-menu-item">
             <i class="mobile-icon bi bi-robot"></i>
             <span class="mobile-text">IA</span>
         </a>
@@ -181,7 +132,7 @@
                 <i class="mobile-expanded-icon bi bi-speedometer2"></i>
                 <span class="mobile-expanded-text">Dashboard</span>
             </a>
-            <a href="/login" class="mobile-expanded-item">
+            <a href="/analises" class="mobile-expanded-item">
                 <i class="mobile-expanded-icon bi bi-graph-up"></i>
                 <span class="mobile-expanded-text">Análises</span>
             </a>
@@ -189,7 +140,7 @@
         
         <div class="mobile-menu-section">
             <div class="mobile-section-title">Ferramentas</div>
-            <a href="/login" class="mobile-expanded-item">
+            <a href="/oftsys-cadastro-paciente" class="mobile-expanded-item">
                 <i class="mobile-expanded-icon bi bi-robot"></i>
                 <span class="mobile-expanded-text">IA Diagnóstica</span>
             </a>
@@ -249,7 +200,21 @@
         </div>
     </div>
 
-    <script>
+
+
+    <div class="modal-overlay" id="forgotPasswordModal">
+        <div class="modal-content">
+            <span class="close-modal" id="closeModalBtn">&times;</span>
+            <h2>Recuperar Senha</h2>
+            <p>Um código foi enviado para seu e-mail. Por favor, insira-o abaixo.</p>
+            <form onsubmit="return false;">
+                <input type="text" id="recovery-code" placeholder="Digite o código">
+                <button type="submit" class="btn btn-login">Verificar Código</button>
+            </form>
+        </div>
+    </div>
+
+        <script>
         document.addEventListener('DOMContentLoaded', function() {
             const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
             const mobileMenuExpanded = document.querySelector('.mobile-menu-expanded');
@@ -293,6 +258,51 @@
             }
         });
     </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // --- Lógica do Modal ---
+            const forgotPasswordBtn = document.getElementById('forgotPasswordBtn');
+            const forgotPasswordModal = document.getElementById('forgotPasswordModal');
+            const closeModalBtn = document.getElementById('closeModalBtn');
+
+            // Abrir o modal
+            forgotPasswordBtn.addEventListener('click', () => {
+                forgotPasswordModal.style.display = 'flex';
+            });
+
+            // Fechar o modal pelo botão X
+            closeModalBtn.addEventListener('click', () => {
+                forgotPasswordModal.style.display = 'none';
+            });
+
+            // Fechar o modal clicando fora dele
+            window.addEventListener('click', (event) => {
+                if (event.target == forgotPasswordModal) {
+                    forgotPasswordModal.style.display = 'none';
+                }
+            });
+
+            // --- Lógica do Login (simulação) ---
+            const loginForm = document.getElementById('loginForm');
+            loginForm.addEventListener('submit', (event) => {
+                event.preventDefault();
+                const loginButton = loginForm.querySelector('.btn-login');
+                
+                // Simula um estado de carregamento
+                loginButton.innerHTML = '<i class="bi bi-arrow-repeat"></i> Entrando...';
+                loginButton.disabled = true;
+
+                // Simula uma chamada de API e redireciona após 2 segundos
+                setTimeout(() => {
+                    alert("Login bem-sucedido! Redirecionando para o dashboard...");
+                    // Na aplicação real, você redirecionaria para a página principal
+                    window.location.href = '/oftsys-cadastro-paciente'; 
+                    loginButton.innerHTML = 'Login';
+                    loginButton.disabled = false;
+                }, 2000);
+            });
+        });
+    </script>
 </body>
-<script src="static/src/sidebar.js"></script>
 </html>

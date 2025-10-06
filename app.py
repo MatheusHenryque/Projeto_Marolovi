@@ -145,6 +145,10 @@ def analises():
     
     return render_template("analises.html", patient=patient_data, results=ia_results)
 
+@app.route("/login")
+def login():
+    return render_template("login.html")
+
 @app.route("/produto")
 def produto():
     return render_template("produto.html")
