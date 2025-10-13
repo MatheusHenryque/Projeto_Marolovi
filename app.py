@@ -5,6 +5,8 @@ import numpy as np
 from PIL import Image
 import onnxruntime as ort 
 import secrets
+import random
+import json
 
 
 app = Flask(__name__)
@@ -150,6 +152,10 @@ def analises():
     
     return render_template("analises.html", patient=patient_data, results=ia_results)
 
+@app.route("/login")
+def login():
+    return render_template("login.html")
+
 @app.route("/produto")
 def produto():
     return render_template("produto.html")
@@ -166,18 +172,22 @@ def recursos():
 def chat():
 
     data = request.get_json()
-
     if not data or 'mensagem' not in data:
         return jsonify({"error": "Nenhuma mensagem recebida."}), 400
         
-    if data['mensagem'].lower() == "colirios" or data['mensagem'].lower() == "quais colírios vocês recomendam?" or data['mensagem'].lower() == "quais colírios vocês recomendam":
-        return jsonify({"resposta": "colírios lubrificantes: Lacrifilm, Systane, Optive, Blink, Refresh"})   
-    
-    user_message = data['mensagem']
+    user_message = data['mensagem'].lower()
+
+    with io.open('static/chatbotHardCoded/chatbot.json', 'r', encoding='utf-8') as f:
+        intents = json.load(f)
+        
+    for intent in intents['intents']:
+        for pattern in intent['patterns']:
+            if pattern.lower() in user_message:
+                bot_response = random.choice(intent['responses'])
+                return jsonify({"resposta": bot_response})
 
     bot_response = f"OFTBOT não reconhece: '{user_message}'"
-
     return jsonify({"resposta": bot_response})
-
+    
 if __name__ == '__main__':
     app.run(host='0.0.0.0',debug=True, port=int(os.getenv("PORT", 5000)))

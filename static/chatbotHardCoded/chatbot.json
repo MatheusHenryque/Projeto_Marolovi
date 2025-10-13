@@ -1,0 +1,152 @@
+{
+  "intents": [
+    {
+      "intent": "saudacao",
+      "patterns": [
+        "oi", "oii", "oie", "oii tudo bem", "oi td bem", "oi tudo bom",
+        "ola", "olá", "ola td bem", "ola tudo bem", "olaa",
+        "bom dia", "b dia", "bomdia",
+        "boa tarde", "boatarde",
+        "boa noite", "boanoite",
+        "e ai", "e aí", "eaí", "eai",
+        "tudo bem", "tudo bom", "td bem", "td bom", "como vai", "como vc ta", "como você está", "tudo certo", "beleza"
+      ],
+      "responses": [
+        "Olá! Eu sou o Oftbot. Como posso ajudar você hoje?",
+        "Oi! Em que posso ser útil?",
+        "Bem-vindo! Está com algum sintoma ocular ou quer informações sobre consultas?"
+      ]
+    },
+    {
+      "intent": "despedida",
+      "patterns": [
+        "tchau", "tchao", "xau", "xauu", "falou", "até logo", "ate logo",
+        "adeus", "vlw tchau", "obrigado tchau", "até mais", "ate mais", "fui", "boa noite tchau", "valeu ate logo"
+      ],
+      "responses": [
+        "Até logo! Cuide bem da sua visão.",
+        "Tchau! Se precisar, estou por aqui.",
+        "Até mais! Qualquer desconforto, agende uma consulta."
+      ]
+    },
+    {
+      "intent": "agradecimento",
+      "patterns": [
+        "obrigado", "obrigada", "brigado", "brigada", "muito obrigado", "muito obrigada",
+        "vlw", "valeu", "obg", "obgdo", "agradecido", "agradeço"
+      ],
+      "responses": [
+        "De nada! Se precisar de mais alguma coisa, é só perguntar.",
+        "Imagina! Estou aqui pra ajudar.",
+        "Por nada! Fico feliz em ajudar com sua saúde ocular."
+      ]
+    },
+    {
+      "intent": "agendamento_consulta",
+      "patterns": [
+        "como agendo uma consulta", "quero marcar um horario", "quero marcar um horário", "agendar consulta", "preciso de um encaixe",
+        "marcar consulta", "quero agendar consulta", "como faço pra agendar", "como marcar consulta", "preciso marcar exame", 
+        "tem horario disponivel", "tem horário disponível", "como falo com a clinica", "como agendo com o medico", "posso marcar consulta"
+      ],
+      "responses": [
+        "Você pode agendar sua consulta ligando para (XX) XXXX-XXXX ou através do site www.clinicaoftalmo.com.br/agendamento.",
+        "Para marcar um horário, acesse nosso site ou entre em contato pelo telefone (XX) XXXX-XXXX.",
+        "Podemos te ajudar com o agendamento! Quer que eu te envie o link direto?"
+      ]
+    },
+    {
+      "intent": "horario_funcionamento",
+      "patterns": [
+        "qual o horario de funcionamento", "qual o horário de funcionamento", "vocês abrem que horas", "voce abre que horas",
+        "a clinica está aberta", "a clinica esta aberta", "qual o horario de voces", "qual horario voces funcionam",
+        "que horas abre", "que horas fecha", "vocês atendem sabado", "abre sabado", "funciona aos domingos"
+      ],
+      "responses": [
+        "Nossa clínica funciona de Segunda a Sexta, das 8h às 18h, e aos Sábados, das 8h às 12h.",
+        "Estamos abertos de segunda a sexta das 8h às 18h, e aos sábados até meio-dia.",
+        "A clínica abre às 8h e fecha às 18h, exceto domingos e feriados."
+      ]
+    },
+    {
+      "intent": "recomendacao_colirios",
+      "patterns": [
+        "colirio", "colírio", "colirios", "colírios", "me indique um colirio", "qual colirio usar", "qual colírio e bom para olho seco",
+        "olho seco", "olhos secos", "me indique um lubrificante ocular", "lubrificante ocular", "hidratante para os olhos",
+        "meu olho ta seco", "meu olho está seco", "sensação de areia no olho", "ardência nos olhos"
+      ],
+      "responses": [
+        "Para lubrificação, algumas opções comuns são: Lacrifilm, Systane, Optive e Refresh. **Importante:** sempre consulte seu oftalmologista antes de usar qualquer medicamento.",
+        "Em casos de olho seco, colírios lubrificantes sem conservantes podem ajudar — mas é fundamental que o médico indique o ideal para você."
+      ]
+    },
+    {
+      "intent": "sintoma_visao_embacada",
+      "patterns": [
+        "visao embaçada", "visão embaçada", "visão turva", "visao turva", "tudo embaçado", "tudo turvo",
+        "nao consigo focar", "não consigo focar", "minha vista ta cansada", "vista cansada", "vejo tudo borrado",
+        "ta tudo meio embaçado", "dificuldade de focar", "visão dupla", "enxergando mal"
+      ],
+      "responses": [
+        "Visão embaçada ou cansada pode ter diversas causas, como grau inadequado, olho seco ou outras condições. É fundamental agendar uma consulta para um diagnóstico preciso.",
+        "A visão turva pode indicar desde necessidade de óculos até problemas oculares mais sérios. Agende uma avaliação o quanto antes."
+      ]
+    },
+    {
+      "intent": "sintoma_olho_vermelho",
+      "patterns": [
+        "olho vermelho", "meu olho ta vermelho", "meu olho está vermelho", "olhos vermelhos", "to com os olhos vermelhos",
+        "olho irritado", "olho irritado e vermelho", "olho ardendo", "vermelhidão nos olhos", "olho inflamado",
+        "meu olho ta ardendo", "olho coçando e vermelho"
+      ],
+      "responses": [
+        "Olhos vermelhos podem ser sinal de alergia, conjuntivite, olho seco ou outras irritações. Evite coçar e agende uma consulta para avaliação.",
+        "A vermelhidão ocular pode indicar algo simples, como irritação, ou algo mais grave. O ideal é passar por uma avaliação oftalmológica."
+      ]
+    },
+    {
+      "intent": "sintoma_coceira",
+      "patterns": [
+        "coceira no olho", "meu olho ta coçando", "meu olho está coçando", "to com coceira no olho", "olho coçando muito",
+        "olhos coçando", "coçando demais", "muita coceira", "meus olhos estão coçando", "olho irritado e coçando"
+      ],
+      "responses": [
+        "A coceira nos olhos geralmente está associada a alergias ou irritações. Tente não esfregar os olhos e agende uma avaliação com o oftalmologista.",
+        "Evite coçar — isso pode piorar a irritação. O ideal é consultar o médico para identificar a causa e indicar o tratamento correto."
+      ]
+    },
+    {
+      "intent": "info_glaucoma",
+      "patterns": [
+        "o que é glaucoma", "oque é glaucoma", "oq é glaucoma", "glaucoma tem cura", "glaucoma sintomas",
+        "como saber se tenho glaucoma", "pressão do olho alta", "pressao ocular alta", "doença do nervo optico"
+      ],
+      "responses": [
+        "Glaucoma é uma doença que afeta o nervo óptico e geralmente está associada ao aumento da pressão intraocular. É uma condição séria que requer acompanhamento médico contínuo.",
+        "O glaucoma pode levar à perda de visão se não tratado. O diagnóstico precoce é essencial — marque uma consulta se tiver histórico familiar ou sintomas."
+      ]
+    },
+    {
+      "intent": "info_catarata",
+      "patterns": [
+        "o que é catarata", "oque é catarata", "oq é catarata", "catarata sintomas", "sintomas de catarata",
+        "cirurgia de catarata", "como tratar catarata", "catarata tem cura", "enxergando nublado"
+      ],
+      "responses": [
+        "Catarata é a opacificação do cristalino, a lente natural do olho, o que causa visão embaçada. O tratamento é cirúrgico e consiste na substituição do cristalino por uma lente artificial.",
+        "A cirurgia de catarata é rápida e segura. É o tratamento definitivo para recuperar a clareza da visão."
+      ]
+    },
+    {
+      "intent": "info_exames",
+      "patterns": [
+        "como é o exame de vista", "como é o exame oftalmologico", "exame de pressão do olho", "exame de pressao ocular",
+        "pra que serve dilatar a pupila", "porque dilata a pupila", "exame de fundo de olho", "exame do fundo do olho",
+        "exame de grau", "teste de visão", "exame para óculos"
+      ],
+      "responses": [
+        "O exame oftalmológico completo inclui verificação do grau (refração), medição da pressão intraocular e avaliação do fundo do olho após dilatação da pupila.",
+        "Durante a consulta, o médico pode solicitar dilatação da pupila para examinar a retina e o nervo óptico com mais detalhes."
+      ]
+    }
+  ]
+}

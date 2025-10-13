@@ -879,7 +879,8 @@ main {
   .eye-visualization-content {
     gap: 3rem;
   }
-  
+
+
   .hero-text h1 {
     font-size: 3rem;
   }
@@ -914,6 +915,10 @@ main {
     display: flex;
   }
   
+  .botoesRow{
+    display: contents;
+  }
+
   .menu-mobile {
     display: block;
   }
@@ -924,6 +929,12 @@ main {
   
   /* Hero section */
   .hero-content {
+    width: 90%;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    align-items: center;
     padding: 1.5rem;
     gap: 1.5rem;
   }
