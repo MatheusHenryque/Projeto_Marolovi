@@ -54,6 +54,11 @@ def cadastro_paciente():
 def artigo():
     return render_template("artigo.html")
 
+@app.route("/login")
+def login():
+    return render_template("login.html")
+
+
 @app.route("/oftsys", methods=["GET", "POST"])
 def oftsys():
     if request.method == "POST":

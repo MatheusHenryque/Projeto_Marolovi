@@ -1,0 +1,203 @@
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .containerCadastro {
+            width: 95%;
+            height: 95%;
+            display: flex;
+            flex-direction: row;
+            box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px,
+                        rgba(0, 0, 0, 0.22) 0px 15px 12px;
+            overflow: hidden;
+            border-radius: 8px;
+        }
+
+        .containerPropaganda {
+            width: 45%;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .imagemlogin {
+            width: 100%;
+            height: 100%;
+            background-color: rgba(82, 126, 180, 0.5);
+            backdrop-filter: blur(10px);
+            object-fit: cover;
+            display: block;
+        }
+
+        .colorOverlay {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            opacity: 0.6;
+            background: linear-gradient(to left, rgb(187, 207, 187), black);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .containerForm {
+            width: 60%;
+            height: 100%;
+            background-color: #efefef;
+            display: flex;
+            flex-direction: column;
+            gap: 4%;
+            padding: 20px;
+        }
+
+        .logoContainer {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            padding: 10px;
+        }
+
+        .logoContainer span {
+            font-size: 25px;
+        }
+
+        .logoContainer span span {
+            background-color: #1c5b85;
+            color: #efefef;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-weight: 700;
+        }
+
+        .logoContainer label {
+            font-size: 15px;
+            color: #000;
+        }
+
+
+        .formInputs {
+            width: 100%;
+            height: auto;
+        }
+
+        .formInputs form {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            padding: 10px;
+        }
+
+        .inputContainer {
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+
+        .inpDadosUsuario {
+            width: 90%;
+            padding: 10px;
+            border: 1px solid rgba(20, 20, 20, 0.25);
+            border-radius: 5px;
+            outline: none;
+            background: none;
+            font-size: 1em;
+            transition: border 0.3s ease-in-out;
+        }
+
+
+        .inputContainer label {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background-color: #efefef;
+            transition: 0.3s ease;
+            font-size: 14px;
+            color: #444;
+            pointer-events: none;
+            padding: 0 4px;
+            text-transform: uppercase;
+        }
+
+        .inpDadosUsuario:focus ~ label,
+        .inpDadosUsuario:valid ~ label {
+            top: -10px;
+            left: 10px;
+            font-size: 12px;
+            background-color: rgb(41, 145, 152);
+            color: #efefef;
+            border-radius: 2px;
+        }
+
+        .btnEntrar {
+            width: 50%;
+            height: 45px;
+            margin-top: 10px;
+            color: rgb(255, 255, 255);
+            font-size: medium;
+            font-weight: bold;
+            cursor: pointer;
+            background-color: #1c5b85;
+            border: 2px solid #1c5b85;
+            border-radius: 7px;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .btnEntrar:hover {
+            background-color: #1c5b85a0;
+            color: #fff;
+        }
+
+        /* ===== TEXTO INFORMATIVO ===== */
+        .formInputs form span {
+            font-size: 13px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            margin-top: 10px;
+            color: #222;
+        }
+
+        /* ===== RESPONSIVIDADE ===== */
+        @media (max-width: 900px) {
+            .containerCadastro {
+                flex-direction: column;
+                height: auto;
+            }
+
+            .containerPropaganda {
+                width: 100%;
+                height: 250px;
+            }
+
+            .containerForm {
+                width: 100%;
+                padding: 20px;
+            }
+
+            .btnCadastrar, .btnEntrar {
+                width: 100%;
+            }
+
+            .inputContainer label {
+                font-size: 13px;
+            }
+        }
