@@ -207,11 +207,13 @@ nav {
   list-style: none;
   padding: 0;
   margin: 0;
+  margin: 0 auto;
 }
 
 .menu-mobile ul li {
   padding: 15px 30px;
   border-bottom: 1px solid #eee;
+  margin: 0 auto;
 }
 
 .menu-mobile ul li a {
@@ -219,13 +221,18 @@ nav {
   text-decoration: none;
   font-size: 1.2rem;
   display: block;
+  text-align: center;
+  margin-bottom: 15px;
+  
 }
 
 .btn-contato-mobile {
   background-color: var(--primary-color);
   color: var(--white) !important;
-  padding: 10px 20px;
-  border-radius: 30px;
+  padding: 10px 10px;
+  border-radius: 10px;
+  width: 60%;
+  margin: 0 auto;
   margin-top: 20px;
   text-align: center;
 }
@@ -868,7 +875,6 @@ main {
   gap: 1.5rem;
 }
 
-/* ===== RESPONSIVIDADE ===== */
 @media (min-width: 768px) {
   .about-content,
   .eye-visualization-content {
@@ -905,7 +911,6 @@ main {
 }
 
 @media (max-width: 768px) {
-  /* Header mobile */
   .nav-links,
   .btn-primary {
     display: none;
@@ -948,7 +953,7 @@ main {
   }
   
   .btn-primary.large {
-    width: 70%;
+    width: 60%;
     font-size: 1rem;
   }
   
