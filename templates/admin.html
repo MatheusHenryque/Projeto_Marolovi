@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Usuário</title>
     <link rel="stylesheet" href="static/css/login.css">
-    <title>OFTSYS</title>
 </head>
 <body>
     <div class="container">
@@ -20,18 +20,21 @@
                 <div class="formInputs">
                     <form>
                         <div class="inputContainer">
-                            <input type="text" id="inpUsuario" class="inpDadosUsuario" required>
+                            <input type="text" id="inpNome" class="inpDadosUsuario" required>
+                            <label>Nome Completo</label>
+                        </div>
+                        <div class="inputContainer">
+                            <input type="text" id="inpCRM" class="inpDadosUsuario" required>
                             <label>CRM</label>
                         </div>
                         <div class="inputContainer">
-                            <input type="password" id="inpSenha" class="inpDadosUsuario" required>
-                            <label>Senha</label>
-                        </div>
+                            <input type="email" id="inpEmail" class="inpDadosUsuario" required>
+                            <label>Email</label>
+                        </div></div>
                         <br>
-                        <a href="/dashboard">
-                            <button type="button" class="btnEntrar">Entrar</button>
+                        <a href="/login">
+                            <button type="button" class="btnEntrar">Cadastrar</button>
                         </a>
-                        <span>Esqueci minha senha<a href="/">Recuperar senha</a></span>
                         
                     </form>
                 </div>
@@ -39,14 +42,4 @@
         </div>
     </div>
 </body>
-
-<script>
-    document.addEventListener("keydown", event => {
-        if ((event.ctrlKey || event.metaKey) && event.key === "Enter") {
-            console.log("Entrar no sistema");
-            window.location.href = "/admin";
-        }
-    });
-</script>
-
 </html>

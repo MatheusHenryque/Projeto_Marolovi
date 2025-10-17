@@ -160,6 +160,10 @@ def produto():
 def como_funciona():
     return render_template("como-funciona.html")
 
+@app.route("/admin")
+def admin():
+    return render_template("admin.html")
+
 @app.route("/recursos")
 def recursos():
     return render_template("recursos.html")
