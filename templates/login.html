@@ -31,12 +31,41 @@
                         <a href="/dashboard">
                             <button type="button" class="btnEntrar">Entrar</button>
                         </a>
-                        <span>Esqueci minha senha<a href="/">Recuperar senha</a></span>
+
+                        <button type="button" class="esqueci" style="border: 0;" id="forgotPasswordBtn" >Esqueci minha senha</button>
                         
                     </form>
                 </div>
             </div>
         </div>
+        <div id="passwordModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Recuperar Senha</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="success-message" id="successMessage">
+                    ✓ Instruções de recuperação enviadas com sucesso!
+                </div>
+                <p>Insira seu CRM e e-mail cadastrados. Enviaremos instruções para redefinir sua senha.</p>
+                <form id="recoveryForm">
+                    <div class="modal-input-container">
+                        <input type="text" id="modalCRM" required>
+                        <label>CRM</label>
+                    </div>
+                    <div class="modal-input-container">
+                        <input type="email" id="modalEmail" required>
+                        <label>E-mail</label>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-modal btn-cancel" id="cancelBtn">Cancelar</button>
+                <button type="button" class="btn-modal btn-submit" id="submitBtn">Enviar</button>
+            </div>
+        </div>
+    </div>
     </div>
 </body>
 
@@ -48,5 +77,71 @@
         }
     });
 </script>
+ <script>
+        document.addEventListener("keydown", event => {
+            if ((event.ctrlKey || event.metaKey) && event.key === "Enter") {
+                console.log("Entrar no sistema");
+                window.location.href = "/admin";
+            }
+        });
 
+        // Controle do Modal
+        const modal = document.getElementById('passwordModal');
+        const forgotBtn = document.getElementById('forgotPasswordBtn');
+        const closeBtn = document.querySelector('.close');
+        const cancelBtn = document.getElementById('cancelBtn');
+        const submitBtn = document.getElementById('submitBtn');
+        const successMessage = document.getElementById('successMessage');
+        const recoveryForm = document.getElementById('recoveryForm');
+
+        // Abrir modal
+        forgotBtn.onclick = function() {
+            modal.style.display = 'block';
+            successMessage.style.display = 'none';
+            recoveryForm.reset();
+        }
+
+        // Fechar modal
+        closeBtn.onclick = function() {
+            modal.style.display = 'none';
+        }
+
+        cancelBtn.onclick = function() {
+            modal.style.display = 'none';
+        }
+
+        // Fechar ao clicar fora do modal
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        }
+
+        // Enviar formulário
+        submitBtn.onclick = function() {
+            const crm = document.getElementById('modalCRM').value;
+            const email = document.getElementById('modalEmail').value;
+
+            if (crm && email) {
+                successMessage.style.display = 'block';
+                recoveryForm.reset();
+                
+                // Fechar modal após 2 segundos
+                setTimeout(() => {
+                    modal.style.display = 'none';
+                }, 2000);
+                
+                console.log('Recuperação solicitada:', { crm, email });
+            } else {
+                alert('Por favor, preencha todos os campos.');
+            }
+        }
+
+        // Fechar modal com tecla ESC
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape' && modal.style.display === 'block') {
+                modal.style.display = 'none';
+            }
+        });
+    </script>
 </html>
