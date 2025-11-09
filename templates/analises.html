@@ -11,302 +11,262 @@
 </head>
 <body>
 <aside class="vertical-sidebar">
-        <!-- SEU MENU LATERAL (SIDEBAR) VEM AQUI -->
-        <div class="sidebar-header">
-            <button class="toggle-btn" id="sidebar-toggle" style="margin-left: 3px;" >
-                <i class="bi bi-list"></i>
-            </button>
-            <div class="user-profile">
-                <div class="user-avatar">O</div>
-                <div class="user-info">
-                    <div class="user-name">OFTSYS</div>
-                </div>
-            </div>
-        </div>
-        <br><br>
-        <div class="sidebar-menu">
-            <div class="menu-section">
-                <div class="section-title">Menu Principal</div>
-                <a href="/dashboard" class="menu-item" data-tooltip="Dashboard">
-                    <i class="bi bi-speedometer2 item-icon"></i>
-                    <span class="item-text">Dashboard</span>
-                </a>
-                <a href="/analises" class="menu-item active" data-tooltip="Análises">
-                    <i class="bi bi-graph-up item-icon"></i>
-                    <span class="item-text">Análises</span>
-                </a>
-            </div>
-            <div class="menu-section">
-                <div class="section-title">Ferramentas</div>
-                <a href="/oftsys-cadastro-paciente" class="menu-item" data-tooltip="IA Diagnóstica">
-                    <i class="bi bi-robot item-icon"></i>
-                    <span class="item-text">IA Diagnóstica</span>
-                </a>
-            </div>
-            <div class="menu-section">
-                <div class="section-title">Configurações</div>
-                <a href="/" class="menu-item" data-tooltip="Sair">
-                    <i class="bi bi-box-arrow-right item-icon"></i>
-                    <span class="item-text">Sair</span>
-                </a>
-            </div>
-        </div>
-    </aside>
-
-
-    <main class="main-content">
-        <div class="medical-header">
-            <h1 class="display-4"><i class="bi bi-file-earmark-medical"></i> Relatório de Análise Diagnóstica</h1>
-            <p class="lead">Resultados da avaliação por imagem assistida por IA</p>
-        </div>
-
-        <!-- Card de Informações do Paciente (permanece o mesmo) -->
-        <div class="report-card">
-            <div class="card-header">
-                <h2><i class="bi bi-person-vcard"></i> Informações do Paciente</h2>
-            </div>
-            <div class="card-content info-grid">
-                <div><label>Nome</label><span>{{ patient.nome }}</span></div>
-                <div><label>Nº Prontuário</label><span>{{ patient.prontuario }}</span></div>
-                <div><label>Nascimento</label><span>{{ patient.nascimento }}</span></div>
-                <div><label>Sexo</label><span style="text-transform: capitalize;">{{ patient.sexo }}</span></div>
-            </div>
-        </div>
-
-        <!-- Loop para criar um card de resultado para cada imagem -->
-       {% for result in results %}
-    
-            {% if result.status == 'analisada' %}
-            <div class="report-card result-item-card">
-                <div class="card-header result-item-header">
-                    <i class="bi bi-image result-icon"></i>
-                    <h2>Análise do Exame: {{ result.filename }}</h2>
-                </div>
-                <div class="card-content">
-                    <table class="results-table">
-                        <thead>
-                            <tr>
-                                <th>Modelo de IA</th>
-                                <th>Diagnóstico Sugerido</th>
-                                <th>Nível de Confiança</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><span class="model-name yolo">YOLOv11</span></td>
-                                <td>
-                                    {% if result.yolo.predicted_class == 1 %}
-                                        <span class="diagnosis-tag normal"><i class="bi bi-check-circle-fill"></i> Normal</span>
-                                    {% else %}
-                                        <span class="diagnosis-tag suspect"><i class="bi bi-exclamation-triangle-fill"></i> Suspeita de Ceratocone</span>
-                                    {% endif %}
-                                </td>
-                                <td>
-                                    <div class="confidence-display">
-                                        <div class="progress-bar">
-                                            <div class="progress-fill" style="width: {{ result.yolo.confidence * 100 }}%;"></div>
-                                        </div>
-                                        <span class="confidence-value">{{ "%.1f"|format(result.yolo.confidence * 100) }}%</span>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><span class="model-name keras">Keras CNN</span></td>
-                                <td>
-                                    {% if result.keras.predicted_class == 1 %}
-                                        <span class="diagnosis-tag normal"><i class="bi bi-check-circle-fill"></i> Normal</span>
-                                    {% else %}
-                                        <span class="diagnosis-tag suspect"><i class="bi bi-exclamation-triangle-fill"></i> Suspeita de Ceratocone</span>
-                                    {% endif %}
-                                </td>
-                                <td>
-                                    <div class="confidence-display">
-                                        <div class="progress-bar">
-                                            <div class="progress-fill" style="width: {{ result.keras.confidence * 100 }}%;"></div>
-                                        </div>
-                                        <span class="confidence-value">{{ "%.1f"|format(result.keras.confidence * 100) }}%</span>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            {% elif result.status == 'rejeitada' %}
-            <div class="report-card result-item-card rejected-card">
-                <div class="card-header result-item-header">
-                    <i class="bi bi-exclamation-octagon-fill result-icon-rejected"></i>
-                    <h2>Análise Recusada: {{ result.filename }}</h2>
-                </div>
-                <div class="card-content">
-                    <p><strong>Motivo:</strong> {{ result.reason }}</p>
-                    <p class="rejected-info">Esta imagem foi ignorada e não passou pelas análises de diagnóstico de ceratocone.</p>
-                </div>
-            </div>
-            {% endif %}
-
-        {% endfor %}
-        
-        <div class="disclaimer" style="margin-bottom: 12vh;">
-            <i class="bi bi-info-circle-fill"></i>
-            <strong>Atenção:</strong> Este é um resultado preliminar e não substitui a avaliação e o diagnóstico de um profissional médico qualificado.
-        </div>
-
-            <!-- Menu mobile -->
-            <div class="mobile-sidebar">
-                <a href="/dashboard" class="mobile-menu-item active">
-                    <i class="mobile-icon bi bi-speedometer2"></i>
-                    <span class="mobile-text">Dashboard</span>
-                </a>
-                <a href="/analises" class="mobile-menu-item">
-                    <i class="mobile-icon bi bi-graph-up"></i>
-                    <span class="mobile-text">Análises</span>
-                </a>
-                <a href="/">
-                        <div class="mobile-menu-toggle">
-                            <i class="bi bi-house"></i>
-                        </div>
-                </a>
-                <a href="/oftsys-cadastro-paciente" class="mobile-menu-item">
-                    <i class="mobile-icon bi bi-robot"></i>
-                    <span class="mobile-text">IA</span>
-                </a>
-                <a href="#" class="mobile-menu-item">
-                    <i class="mobile-icon bi bi-file-text"></i>
-                    <span class="mobile-text">Artigo</span>
-                </a>
-            </div>
-
-        <div class="mobile-menu-expanded">
-            <div class="mobile-user-profile">
-                <div class="mobile-user-avatar">O</div>
-                <div class="mobile-user-info">
-                    <h4>OFTSYS</h4>
-                </div>
-            </div>
-            
-            <div class="mobile-menu-section">
-                <div class="mobile-section-title">Menu Principal</div>
-                <a href="/dashboard" class="mobile-expanded-item active">
-                    <i class="mobile-expanded-icon bi bi-speedometer2"></i>
-                    <span class="mobile-expanded-text">Dashboard</span>
-                </a>
-                <a href="/analises" class="mobile-expanded-item">
-                    <i class="mobile-expanded-icon bi bi-graph-up"></i>
-                    <span class="mobile-expanded-text">Análises</span>
-                </a>
-            </div>
-            
-            <div class="mobile-menu-section">
-                <div class="mobile-section-title">Ferramentas</div>
-                <a href="/oftsys-cadastro-paciente" class="mobile-expanded-item">
-                    <i class="mobile-expanded-icon bi bi-robot"></i>
-                    <span class="mobile-expanded-text">IA Diagnóstica</span>
-                </a>
-                <a href="#" class="mobile-expanded-item">
-                    <i class="mobile-expanded-icon bi bi-file-text"></i>
-                    <span class="mobile-expanded-text">O Artigo</span>
-                </a>
-            </div>
-
-            <div class="mobile-menu-section">
-                <div class="mobile-section-title">Configurações</div>
-                <a href="/" class="mobile-expanded-item">
-                    <i class="mobile-expanded-icon bi bi-box-arrow-right"></i>
-                    <span class="mobile-expanded-text">Sair</span>
-                </a>
-            </div>
-        </div>
-
-        <!-- Chatbot -->
-        <button id="chat-button">
-            <i class="bi bi-robot"></i>
+    <!-- Menu Lateral (Sidebar) -->
+    <div class="sidebar-header">
+        <button class="toggle-btn" id="sidebar-toggle" style="margin-left: 3px;">
+            <i class="bi bi-list"></i>
         </button>
-
-        <div id="chat-container">
-            <div id="chat-header">
-                <div class="chat-title">
-                    <i class="bi bi-robot"></i>
-                    <span>OFTBOT</span>
-                </div>
-                <div class="chat-actions">
-                    <button class="chat-action-btn" id="close-chat">
-                        <i class="bi bi-x"></i>
-                    </button>
-                </div>
+        <div class="user-profile">
+            <div class="user-avatar">O</div>
+            <div class="user-info">
+                <div class="user-name">OFTSYS</div>
             </div>
+        </div>
+    </div>
+    <br><br>
+    <div class="sidebar-menu">
+        <div class="menu-section">
+            <div class="section-title">Menu Principal</div>
+            <a href="/dashboard" class="menu-item" data-tooltip="Dashboard">
+                <i class="bi bi-speedometer2 item-icon"></i>
+                <span class="item-text">Dashboard</span>
+            </a>
+            <a href="/analises" class="menu-item active" data-tooltip="Análises">
+                <i class="bi bi-graph-up item-icon"></i>
+                <span class="item-text">Análises</span>
+            </a>
+        </div>
+        <div class="menu-section">
+            <div class="section-title">Ferramentas</div>
+            <a href="/oftsys-cadastro-paciente" class="menu-item" data-tooltip="IA Diagnóstica">
+                <i class="bi bi-robot item-icon"></i>
+                <span class="item-text">IA Diagnóstica</span>
+            </a>
+        </div>
+        <div class="menu-section">
+            <div class="section-title">Configurações</div>
+            <a href="/" class="menu-item" data-tooltip="Sair">
+                <i class="bi bi-box-arrow-right item-icon"></i>
+                <span class="item-text">Sair</span>
+            </a>
+        </div>
+    </div>
+</aside>
 
-            <div id="chat-messages">
-                <div class="message bot">
-                    <div class="message-content">
-                        <p>
-                            Olá, eu sou o seu assistente especializado em ceratocone e estou
-                            pronto para tirar suas dúvidas!
-                        </p>
-                    </div>
-                </div>
+<main class="main-content">
+    <div class="medical-header">
+        <h1 class="display-4"><i class="bi bi-file-earmark-medical"></i> Relatório de Análise Diagnóstica</h1>
+        <p class="lead">Resultados da avaliação por imagem assistida por IA</p>
+    </div>
+
+    <!-- Card de Informações do Paciente -->
+    <div class="report-card">
+        <div class="card-header">
+            <h2><i class="bi bi-person-vcard"></i> Informações do Paciente</h2>
+        </div>
+        <div class="card-content info-grid">
+            <div><label>Nome</label><span>{{ patient.nome }}</span></div>
+            <div><label>Nº Prontuário</label><span>{{ patient.prontuario }}</span></div>
+            <div><label>Nascimento</label><span>{{ patient.nascimento }}</span></div>
+            <div><label>Sexo</label><span style="text-transform: capitalize;">{{ patient.sexo }}</span></div>
+        </div>
+    </div>
+
+    <!-- Loop para exibir os resultados das análises -->
+    {% for result in results %}
+    
+        {% if result.status == 'analisada' %}
+        <div class="report-card result-item-card">
+            <div class="card-header result-item-header">
+                <i class="bi bi-image result-icon"></i>
+                <h2>Análise do Exame: {{ result.filename }}</h2>
             </div>
+            <div class="card-content">
+                <table class="results-table">
+                    <thead>
+                        <tr>
+                            <th>Modelo de IA</th>
+                            <th>Diagnóstico Sugerido</th>
+                            <th>Nível de Confiança</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- YOLOv11 -->
+                        <tr>
+                            <td><span class="model-name yolo">YOLOv11</span></td>
+                            <td>
+                                {% if result.yolo.predicted_class == 1 %}
+                                    <span class="diagnosis-tag normal"><i class="bi bi-check-circle-fill"></i> Normal</span>
+                                {% else %}
+                                    <span class="diagnosis-tag suspect"><i class="bi bi-exclamation-triangle-fill"></i> Suspeita de Ceratocone</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <div class="confidence-display">
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: {{ result.yolo.confidence * 100 }}%;"></div>
+                                    </div>
+                                    <span class="confidence-value">{{ "%.1f"|format(result.yolo.confidence * 100) }}%</span>
+                                </div>
+                            </td>
+                        </tr>
+                        <!-- Keras CNN -->
+                        <tr>
+                            <td><span class="model-name keras">Keras CNN</span></td>
+                            <td>
+                                {% if result.keras.predicted_class == 1 %}
+                                    <span class="diagnosis-tag normal"><i class="bi bi-check-circle-fill"></i> Normal</span>
+                                {% else %}
+                                    <span class="diagnosis-tag suspect"><i class="bi bi-exclamation-triangle-fill"></i> Suspeita de Ceratocone</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <div class="confidence-display">
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: {{ result.keras.confidence * 100 }}%;"></div>
+                                    </div>
+                                    <span class="confidence-value">{{ "%.1f"|format(result.keras.confidence * 100) }}%</span>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- Imagem com Grad-CAM -->
+            <div class="gradcam-image">
+                <img src="data:image/jpeg;base64,{{ result.gradcam_image }}" alt="Imagem com Grad-CAM" class="gradcam-img">
+            </div>
+        </div>
 
-            <div id="chat-input-container">
-                <input
-                    type="text"
-                    id="chat-input"
-                    placeholder="Digite sua mensagem..."
-                />
-                <button id="send-button">
-                    <i class="bi bi-send"></i>
+        {% elif result.status == 'rejeitada' %}
+        <div class="report-card result-item-card rejected-card">
+            <div class="card-header result-item-header">
+                <i class="bi bi-exclamation-octagon-fill result-icon-rejected"></i>
+                <h2>Análise Recusada: {{ result.filename }}</h2>
+            </div>
+            <div class="card-content">
+                <p><strong>Motivo:</strong> {{ result.reason }}</p>
+                <p class="rejected-info">Esta imagem foi ignorada e não passou pelas análises de diagnóstico de ceratocone.</p>
+            </div>
+        </div>
+        {% endif %}
+    
+    {% endfor %}
+
+    <!-- Aviso de disclaimer -->
+    <div class="disclaimer" style="margin-bottom: 12vh;">
+        <i class="bi bi-info-circle-fill"></i>
+        <strong>Atenção:</strong> Este é um resultado preliminar e não substitui a avaliação e o diagnóstico de um profissional médico qualificado.
+    </div>
+
+    <!-- Menu Mobile -->
+    <div class="mobile-sidebar">
+        <a href="/dashboard" class="mobile-menu-item active">
+            <i class="mobile-icon bi bi-speedometer2"></i>
+            <span class="mobile-text">Dashboard</span>
+        </a>
+        <a href="/analises" class="mobile-menu-item">
+            <i class="mobile-icon bi bi-graph-up"></i>
+            <span class="mobile-text">Análises</span>
+        </a>
+        <a href="/">
+            <div class="mobile-menu-toggle">
+                <i class="bi bi-house"></i>
+            </div>
+        </a>
+        <a href="/oftsys-cadastro-paciente" class="mobile-menu-item">
+            <i class="mobile-icon bi bi-robot"></i>
+            <span class="mobile-text">IA</span>
+        </a>
+        <a href="#" class="mobile-menu-item">
+            <i class="mobile-icon bi bi-file-text"></i>
+            <span class="mobile-text">Artigo</span>
+        </a>
+    </div>
+
+    <!-- Chatbot -->
+    <button id="chat-button">
+        <i class="bi bi-robot"></i>
+    </button>
+
+    <div id="chat-container">
+        <div id="chat-header">
+            <div class="chat-title">
+                <i class="bi bi-robot"></i>
+                <span>OFTBOT</span>
+            </div>
+            <div class="chat-actions">
+                <button class="chat-action-btn" id="close-chat">
+                    <i class="bi bi-x"></i>
                 </button>
             </div>
         </div>
-     
-    </main>
 
-        <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
-            const mobileMenuExpanded = document.querySelector('.mobile-menu-expanded');
-            
-            if (mobileMenuToggle && mobileMenuExpanded) {
-                mobileMenuToggle.addEventListener('click', function() {
-                    this.classList.toggle('open');
-                    mobileMenuExpanded.classList.toggle('open');
-                });
-            }
-            const toggleBtn = document.querySelector('.toggle-btn');
-            const verticalSidebar = document.querySelector('.vertical-sidebar');
-            
-            if (toggleBtn && verticalSidebar) {
-                toggleBtn.addEventListener('click', function() {
-                    verticalSidebar.classList.toggle('collapsed');
-                });
-            }
-            const mobileMenuItems = document.querySelectorAll('.mobile-expanded-item');
-            mobileMenuItems.forEach(item => {
-                item.addEventListener('click', function() {
-                    mobileMenuExpanded.classList.remove('open');
-                    mobileMenuToggle.classList.remove('open');
-                });
+        <div id="chat-messages">
+            <div class="message bot">
+                <div class="message-content">
+                    <p>Olá, eu sou o seu assistente especializado em ceratocone e estou pronto para tirar suas dúvidas!</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="chat-input-container">
+            <input type="text" id="chat-input" placeholder="Digite sua mensagem..." />
+            <button id="send-button">
+                <i class="bi bi-send"></i>
+            </button>
+        </div>
+    </div>
+
+</main>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+        const mobileMenuExpanded = document.querySelector('.mobile-menu-expanded');
+
+        if (mobileMenuToggle && mobileMenuExpanded) {
+            mobileMenuToggle.addEventListener('click', function() {
+                this.classList.toggle('open');
+                mobileMenuExpanded.classList.toggle('open');
             });
-            
-            const chatButton = document.getElementById('chat-button');
-            const chatContainer = document.getElementById('chat-container');
-            const closeChat = document.getElementById('close-chat');
-            
-            if (chatButton && chatContainer) {
-                chatButton.addEventListener('click', function() {
-                    chatContainer.style.display = chatContainer.style.display === 'flex' ? 'none' : 'flex';
-                });
-            }
-            
-            if (closeChat && chatContainer) {
-                closeChat.addEventListener('click', function() {
-                    chatContainer.style.display = 'none';
-                });
-            }
-        });
-    </script>
+        }
 
-</body>
+        const toggleBtn = document.querySelector('.toggle-btn');
+        const verticalSidebar = document.querySelector('.vertical-sidebar');
+
+        if (toggleBtn && verticalSidebar) {
+            toggleBtn.addEventListener('click', function() {
+                verticalSidebar.classList.toggle('collapsed');
+            });
+        }
+
+        const mobileMenuItems = document.querySelectorAll('.mobile-expanded-item');
+        mobileMenuItems.forEach(item => {
+            item.addEventListener('click', function() {
+                mobileMenuExpanded.classList.remove('open');
+                mobileMenuToggle.classList.remove('open');
+            });
+        });
+
+        const chatButton = document.getElementById('chat-button');
+        const chatContainer = document.getElementById('chat-container');
+        const closeChat = document.getElementById('close-chat');
+
+        if (chatButton && chatContainer) {
+            chatButton.addEventListener('click', function() {
+                chatContainer.style.display = chatContainer.style.display === 'flex' ? 'none' : 'flex';
+            });
+        }
+
+        if (closeChat && chatContainer) {
+            closeChat.addEventListener('click', function() {
+                chatContainer.style.display = 'none';
+            });
+        }
+    });
+</script>
+
 <script src="static/src/sidebar.js"></script>
+</body>
 </html>
