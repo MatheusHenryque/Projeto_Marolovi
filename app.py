@@ -41,29 +41,32 @@ def get_yolo_input(img):
     img_array = np.expand_dims(img_array, axis=0) / 255.0
     return img_array
 
-# --- 🔴 Geração de Grad-CAM falso ---
 def generate_mock_gradcam(img):
-    """
-    Gera uma sobreposição vermelha circular no centro da imagem (simula Grad-CAM).
-    Retorna a imagem codificada em base64.
-    """
-    img_copy = img.copy()
+    img_copy = img.convert("RGB").copy()  # Garante RGB
     draw = ImageDraw.Draw(img_copy)
     w, h = img_copy.size
     radius = min(w, h) // 6
     center = (w // 2, h // 2)
 
+    # Cria overlay RGBA e combina com RGB
     overlay = Image.new('RGBA', img_copy.size, (0, 0, 0, 0))
     overlay_draw = ImageDraw.Draw(overlay)
     overlay_draw.ellipse(
-        (center[0]+ random.randint(1,30) - radius, center[1] +random.randint(1,30) - radius, center[0]+random.randint(1,30) + radius, center[1]+random.randint(1,30) + radius),
-        outline=(255, 0, 0, 180),  # Cor da borda (RGBA)
-        width=8                    # Espessura da borda
+        (
+            center[0] + random.randint(1, 30) - radius,
+            center[1] + random.randint(1, 30) - radius,
+            center[0] + random.randint(1, 30) + radius,
+            center[1] + random.randint(1, 30) + radius
+        ),
+        outline=(255, 0, 0, 180),
+        width=8
     )
 
-    combined = Image.alpha_composite(img_copy.convert('RGBA'), overlay)
+    # Faz a fusão e converte explicitamente para RGB
+    combined = Image.alpha_composite(img_copy.convert('RGBA'), overlay).convert('RGB')
+
     buffered = io.BytesIO()
-    combined.convert('RGB').save(buffered, format="JPEG")
+    combined.save(buffered, format="JPEG")  # Agora seguro
     return base64.b64encode(buffered.getvalue()).decode("utf-8")
 
 # --- Rotas ---
@@ -112,6 +115,7 @@ def predict():
 
             img_bytes = io.BytesIO(file.read())
             img = Image.open(img_bytes)
+            img = img.convert("RGB")
             processed_img = preprocess_image(img)
 
             # --- Verificação de topografia ---
