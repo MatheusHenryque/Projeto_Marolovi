@@ -93,22 +93,25 @@ document.addEventListener("DOMContentLoaded", () => {
 
         try {
             const response = await fetch("/predict", { method: "POST", body: formData });
-            const data = await response.json();
 
-            if (response.ok && data.success) {
-                window.location.href = data.redirect_url;
-            } else {
-                throw new Error(data.error || "Erro desconhecido do servidor.");
-            }
+            // Agora o servidor devolve HTML completo, então usamos response.text()
+            const html = await response.text();
+
+            // Substitui o conteúdo atual da página pelo HTML retornado
+            document.open();
+            document.write(html);
+            document.close();
+
         } catch (error) {
             console.error("Erro ao enviar imagens:", error);
             alert(`Erro na predição: ${error.message}`);
         } finally {
-            // Garante que o botão volte ao normal, mesmo se houver erro
+            // Caso ocorra erro antes da troca de página, restaura o botão
             elements.analyzeBtn.disabled = false;
             elements.analyzeBtn.innerHTML = '<i class="fas fa-search-plus"></i> ANALISAR IMAGENS';
         }
     }
+
 
     // --- Vincula os Event Listeners ---
     elements.analyzeBtn.addEventListener("click", () => sendImages(selectedFiles));

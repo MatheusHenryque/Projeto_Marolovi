@@ -2,12 +2,14 @@ from flask import Flask, request, jsonify, render_template, redirect, url_for, s
 import os
 import io
 import numpy as np
-from PIL import Image
-import onnxruntime as ort 
+from PIL import Image, ImageDraw
+import onnxruntime as ort
 import secrets
 import random
 import json
-
+import time
+from datetime import datetime
+import base64
 
 app = Flask(__name__)
 app.secret_key = secrets.token_hex(16)
@@ -39,9 +41,34 @@ def get_yolo_input(img):
     img_array = np.expand_dims(img_array, axis=0) / 255.0
     return img_array
 
+# --- 🔴 Geração de Grad-CAM falso ---
+def generate_mock_gradcam(img):
+    """
+    Gera uma sobreposição vermelha circular no centro da imagem (simula Grad-CAM).
+    Retorna a imagem codificada em base64.
+    """
+    img_copy = img.copy()
+    draw = ImageDraw.Draw(img_copy)
+    w, h = img_copy.size
+    radius = min(w, h) // 6
+    center = (w // 2, h // 2)
+
+    overlay = Image.new('RGBA', img_copy.size, (0, 0, 0, 0))
+    overlay_draw = ImageDraw.Draw(overlay)
+    overlay_draw.ellipse(
+        (center[0]+ random.randint(1,30) - radius, center[1] +random.randint(1,30) - radius, center[0]+random.randint(1,30) + radius, center[1]+random.randint(1,30) + radius),
+        outline=(255, 0, 0, 180),  # Cor da borda (RGBA)
+        width=8                    # Espessura da borda
+    )
+
+    combined = Image.alpha_composite(img_copy.convert('RGBA'), overlay)
+    buffered = io.BytesIO()
+    combined.convert('RGB').save(buffered, format="JPEG")
+    return base64.b64encode(buffered.getvalue()).decode("utf-8")
+
 # --- Rotas ---
 @app.route("/")
-def index():   
+def index():
     return render_template("index.html")
 
 @app.route("/dashboard")
@@ -55,7 +82,6 @@ def cadastro_paciente():
 @app.route("/artigo")
 def artigo():
     return render_template("artigo.html")
-
 
 @app.route("/oftsys", methods=["GET", "POST"])
 def oftsys():
@@ -72,7 +98,7 @@ def oftsys():
 @app.route("/predict", methods=["POST"])
 def predict():
     files = request.files.getlist("files[]")
-    
+
     if not files or 'patient_data' not in session:
         return jsonify({"error": "Dados incompletos ou nenhuma imagem enviada."}), 400
 
@@ -80,14 +106,18 @@ def predict():
 
     try:
         for file in files:
+            # --- Timestamp ---
+            timestamp = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+            start_time = time.time()
+
             img_bytes = io.BytesIO(file.read())
             img = Image.open(img_bytes)
-            
             processed_img = preprocess_image(img)
 
+            # --- Verificação de topografia ---
             topo_input = get_keras_input(processed_img)
             topo_pred_value = topo_classifier_session.run(None, {topo_classifier_input_name: topo_input})[0][0][0]
-            topo_threshold = 0.5 
+            topo_threshold = 0.5
 
             if topo_pred_value < topo_threshold:
                 all_results.append({
@@ -95,9 +125,9 @@ def predict():
                     "status": "rejeitada",
                     "reason": "A imagem não foi identificada como uma topografia de córnea."
                 })
-                continue 
+                continue
 
-            # Predição Keras (Ceratocone)
+            # --- Predição Keras ---
             keras_input = get_keras_input(processed_img)
             keras_pred_value = keras_session.run(None, {keras_input_name: keras_input})[0][0][0]
 
@@ -107,16 +137,30 @@ def predict():
                 confidence_keras = float(keras_pred_value)
             else:
                 predicted_class_keras = 0
-                confidence_keras = 1.0 - float(keras_pred_value) 
+                confidence_keras = 1.0 - float(keras_pred_value)
 
-            # Predição YOLO (Ceratocone)
+            # --- Predição YOLO ---
             yolo_input = get_yolo_input(processed_img)
             yolo_pred = yolo_session.run(None, {yolo_input_name: yolo_input})[0]
 
-            # Adiciona o resultado da análise à lista
+            inference_time = time.time() - start_time
+
+            # --- Converter imagem original em base64 ---
+            buffered = io.BytesIO()
+            img.save(buffered, format="JPEG")
+            encoded_image = base64.b64encode(buffered.getvalue()).decode("utf-8")
+
+            # --- Gerar Grad-CAM falso ---
+            gradcam_encoded = generate_mock_gradcam(processed_img)
+
+            # --- Resultado ---
             all_results.append({
                 "filename": file.filename,
-                "status": "analisada", # Novo status para indicar sucesso    
+                "status": "analisada",
+                "timestamp": timestamp,
+                "inference_time": round(inference_time, 2),
+                "uploaded_image": encoded_image,
+                "gradcam_image": gradcam_encoded,
                 "keras": {
                     "predicted_class": predicted_class_keras,
                     "confidence": confidence_keras
@@ -126,27 +170,36 @@ def predict():
                     "confidence": float(np.max(yolo_pred, axis=1)[0])
                 }
             })
+        session['ia_meta'] = [
+            {
+                "filename": r["filename"],
+                "status": r["status"],
+                "timestamp": r.get("timestamp"),
+                "inference_time": r.get("inference_time"),
+                "keras": r.get("keras"),
+                "yolo": r.get("yolo")
+            }
+            for r in all_results
+        ]
 
-        session['ia_results'] = all_results
-        
-        return jsonify({
-            "success": True,
-            "redirect_url": url_for('analises')
-        })
+        patient_data = session.get('patient_data')
+        return render_template("analises.html", patient=patient_data, results=all_results)
 
     except Exception as e:
         print(f"Ocorreu um erro durante a predição: {e}")
         return jsonify({"error": "Falha ao processar uma das imagens no servidor."}), 500
 
+
 @app.route("/analises")
 def analises():
     patient_data = session.get('patient_data')
-    ia_results = session.get('ia_results')
-    
-    if not patient_data or not ia_results:
+    ia_meta = session.get('ia_meta')
+
+    if not patient_data or not ia_meta:
         return redirect(url_for('cadastro_paciente'))
-    
-    return render_template("analises.html", patient=patient_data, results=ia_results)
+
+    return redirect(url_for('cadastro_paciente'))
+
 
 @app.route("/login")
 def login():
@@ -168,18 +221,17 @@ def admin():
 def recursos():
     return render_template("recursos.html")
 
-@app.route("/chat", methods=["POST"])  
+@app.route("/chat", methods=["POST"])
 def chat():
-
     data = request.get_json()
     if not data or 'mensagem' not in data:
         return jsonify({"error": "Nenhuma mensagem recebida."}), 400
-        
+
     user_message = data['mensagem'].lower()
 
     with io.open('static/chatbotHardCoded/chatbot.json', 'r', encoding='utf-8') as f:
         intents = json.load(f)
-        
+
     for intent in intents['intents']:
         for pattern in intent['patterns']:
             if pattern.lower() in user_message:
@@ -188,6 +240,7 @@ def chat():
 
     bot_response = f"OFTBOT não reconhece: '{user_message}'"
     return jsonify({"resposta": bot_response})
-    
+
+
 if __name__ == '__main__':
-    app.run(host='0.0.0.0',debug=True, port=int(os.getenv("PORT", 5000)))
+    app.run(host='0.0.0.0', debug=True, port=int(os.getenv("PORT", 5000)))
